@@ -311,23 +311,25 @@
     <script type="text/javascript" src="src/js/xmas-pi.js"></script>
     <!-- LIGHT BULB TOGGLING -->
     <script>
-    $('button.light').click(
-        function() {
-            if (this.value === '1') {
-                $(this).find('i').each(function(index, value) {
-                    $(value).removeClass('fa-square').addClass('fa-square-o');
-                });
-                this.value = '0';
-                console.log('Light ' + this.id + ' :' + this.name + ' turned off');
-            } else {
-                $(this).find('i').each(function(index, value) {
-                    $(value).removeClass('fa-square-o').addClass('fa-square');
-                });
-                this.value = '1';
-                console.log('Light ' + this.id + ' :' + this.name + ' turned on');
-            }
+    var toggleLightBulb = function($this) {
+        if ($this.value === '1') {
+            $($this).find('i').each(function(index, value) {
+                $(value).removeClass('fa-square').addClass('fa-square-o');
+            });
+            $this.value = '0';
+            console.log('Light ' + $this.id + ' :' + $this.name + ' turned off');
+        } else {
+            $($this).find('i').each(function(index, value) {
+                $(value).removeClass('fa-square-o').addClass('fa-square');
+            });
+            $this.value = '1';
+            console.log('Light ' + $this.id + ' :' + $this.name + ' turned on');
         }
-    );
+    }
+    
+    $('button.light').click(function() {
+            toggleLightBulb(this)
+    });
     </script>
     <script>
         $('#add-frame').click(function() {

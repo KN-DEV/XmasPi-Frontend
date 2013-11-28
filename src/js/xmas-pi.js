@@ -32,6 +32,10 @@
         this.list.pop();
     }
 
+    Frames.prototype.assignArray = function(array, index) {
+        this.list[index] = array; 
+    }
+
     Frames.prototype._empty = function() {
         this.list = [];
     }
@@ -44,6 +48,8 @@
         return this.list[this.list.length - 1];
     }
 
+    /* properties
+     */
     var frames = new Frames();
     var frameCounter = 0;
 
@@ -61,6 +67,28 @@
             }
         });
         frames.push(bulbArray);
+    }
+
+    var updateCurrentFrame = function($this, frames) {
+        var bulbArray = [];
+
+        $this.find('button').each(function(i) {
+            if ( this.value == "" ) {
+                bulbArray[i] = 0;
+            } else {
+                bulbArray[i] = parseInt(this.value);
+            }
+        });
+        frames.assignArray(bulbArray, frameCounter);
+    }
+
+    var toggleBulbs = function($this, frames) {
+        console.log("Toggling bulbs");
+        $this.find('button').each(function(i) {
+            console.log(frameCounter);
+            console.log(frames.indexAt(frameCounter)[i]); 
+            this.value = frames.indexAt(frameCounter)[i];
+        })
     }
 
     var clearFrame = function($this) {
@@ -86,5 +114,17 @@
         addCurrentFrame(this, frames);
         clearFrame(this);
         frameCounter++;
+    }
+
+    $.fn.previousFrame = function() {
+        if ( frameCounter-1 < 0 ) {
+            frameCounter = 0; 
+            console.log("This is the first frame, you can't go back.");
+        } else {
+            updateCurrentFrame(this, frames); 
+            clearFrame(this);
+            frameCounter--;
+            toggleBulbs(this, frames);
+        } 
     }
 }( jQuery ));
