@@ -82,13 +82,22 @@
         frames.assignArray(bulbArray, frameCounter);
     }
 
+    var toggleLightBulb = function($this) {
+        if ( $this.value == 0 ) {
+            $($this).find('i').removeClass('fa-square').addClass('fa-square-o');
+        } else {
+            $($this).find('i').removeClass('fa-square-o').addClass('fa-square');
+        } 
+    }
+
     var toggleBulbs = function($this, frames) {
         console.log("Toggling bulbs");
         $this.find('button').each(function(i) {
-            console.log(frameCounter);
-            console.log(frames.indexAt(frameCounter)[i]); 
+            //console.log(frameCounter);
+            //console.log(frames.indexAt(frameCounter)[i]); 
             this.value = frames.indexAt(frameCounter)[i];
-        })
+            toggleLightBulb(this);
+        });
     }
 
     var clearFrame = function($this) {
@@ -106,6 +115,7 @@
         addCurrentFrame(this, frames);
         clearFrame(this); 
         frameCounter++;
+        console.log("Frame: " + frameCounter);
     }
 
     $.fn.nextFrame = function() {
@@ -114,17 +124,20 @@
         addCurrentFrame(this, frames);
         clearFrame(this);
         frameCounter++;
+        console.log("Frame: " + frameCounter);
     }
 
     $.fn.previousFrame = function() {
         if ( frameCounter-1 < 0 ) {
             frameCounter = 0; 
             console.log("This is the first frame, you can't go back.");
+            console.log("Frame: " + frameCounter);
         } else {
             updateCurrentFrame(this, frames); 
             clearFrame(this);
             frameCounter--;
             toggleBulbs(this, frames);
+            console.log("Frame: " + frameCounter);
         } 
     }
 }( jQuery ));
