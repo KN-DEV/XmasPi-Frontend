@@ -56,19 +56,6 @@
     /* adds current frame to Frames collection
      * $this used to reference object calling the function
      */
-    var addCurrentFrame = function($this, frames) {
-        var bulbArray = [];
-
-        $this.find('button').each(function(i) {
-            if ( this.value == "" ) {
-                bulbArray[i] = 0;
-            } else {
-                bulbArray[i] = parseInt(this.value);
-            }
-        });
-        frames.push(bulbArray);
-    }
-
     var updateCurrentFrame = function($this, frames) {
         var bulbArray = [];
 
@@ -79,7 +66,11 @@
                 bulbArray[i] = parseInt(this.value);
             }
         });
-        frames.assignArray(bulbArray, frameCounter);
+        if ( frames.indexAt(frameCounter) == undefined ) {
+            frames.push(bulbArray);
+        } else {
+            frames.assignArray(bulbArray, frameCounter);
+        }
     }
 
     var toggleLightBulb = function($this) {
@@ -112,7 +103,7 @@
     $.fn.addFrame = function() {
         console.log(frames);
         console.log(this);
-        addCurrentFrame(this, frames);
+        updateCurrentFrame(this, frames);
         clearFrame(this); 
         frameCounter++;
         console.log("Frame: " + frameCounter);
@@ -121,7 +112,7 @@
     $.fn.nextFrame = function() {
         console.log(frames);
         console.log(frames.list);
-        addCurrentFrame(this, frames);
+        updateCurrentFrame(this, frames);
         clearFrame(this);
         frameCounter++;
         console.log("Frame: " + frameCounter);
