@@ -1,0 +1,7 @@
+.btn {
+    text-decoration: none !important;
+}
+
+.btn:focus {
+    outline: 0;
+}
