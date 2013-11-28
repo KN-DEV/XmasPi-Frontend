@@ -301,8 +301,14 @@
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button id="add-frame" class="btn btn-link">Add frame</button>
+                <button id="add-frame" class="btn btn-link">
+                    Add frame</button>
             </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="previous-frame" class="btn btn-link">
+                    Previous frame</button>
+            </div>
+
         </div>
     </body>  
     <!-- SCRIPTS -->
@@ -335,5 +341,9 @@
         $('#add-frame').click(function() {
              $('#tree-wrapper').addFrame();
         });
+        $('#previous-frame').click(function() {
+             $('#tree-wrapper').previousFrame();
+        });
+
     </script>
 </html>
