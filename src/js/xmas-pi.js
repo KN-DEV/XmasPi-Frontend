@@ -100,14 +100,14 @@
         });
     }
          
-    $.fn.addFrame = function() {
-        console.log(frames);
-        console.log(this);
-        updateCurrentFrame(this, frames);
-        clearFrame(this); 
-        frameCounter++;
-        console.log("Frame: " + frameCounter);
-    }
+    //$.fn.addFrame = function() {
+        //console.log(frames);
+        //console.log(this);
+        //updateCurrentFrame(this, frames);
+        //clearFrame(this); 
+        //frameCounter++;
+        //console.log("Frame: " + frameCounter);
+    //}
 
     $.fn.nextFrame = function() {
         console.log(frames);
@@ -115,6 +115,7 @@
         updateCurrentFrame(this, frames);
         clearFrame(this);
         frameCounter++;
+        toggleBulbs(this, frames);
         console.log("Frame: " + frameCounter);
     }
 
