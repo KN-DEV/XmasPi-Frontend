@@ -300,14 +300,17 @@
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button id="next-frame" class="btn btn-link">
-                    Next frame</button>
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <button id="previous-frame" class="btn btn-link">
                     Previous frame</button>
             </div>
-
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="add-frame" class="btn btn-link">
+                    Add frame</button>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="next-frame" class="btn btn-link">
+                    Next frame</button>
+            </div>
         </div>
     </body>  
     <!-- SCRIPTS -->
@@ -317,17 +320,22 @@
     <!-- LIGHT BULB TOGGLING -->
     <script>
     var toggleLightBulb = function($this) {
+        var id = $this.id-1;
+        console.log(id);
+
         if ($this.value === '1') {
             $($this).find('i').each(function(index, value) {
                 $(value).removeClass('fa-square').addClass('fa-square-o');
             });
             $this.value = '0';
             console.log('Light ' + $this.id + ' :' + $this.name + ' turned off');
+            $('tree-wrapper').assignValue(id, $this.value);
         } else {
             $($this).find('i').each(function(index, value) {
                 $(value).removeClass('fa-square-o').addClass('fa-square');
             });
             $this.value = '1';
+            $('tree-wrapper').assignValue(id, $this.value);
             console.log('Light ' + $this.id + ' :' + $this.name + ' turned on');
         }
     }
@@ -344,6 +352,9 @@
             });
             $('#previous-frame').click(function() {
                  $('#tree-wrapper').previousFrame();
+            });
+            $('#add-frame').click(function() {
+                $('#tree-wrapper').addFrame();    
             });
         })
     </script>
