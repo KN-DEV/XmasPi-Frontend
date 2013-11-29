@@ -125,6 +125,10 @@
     $.fn.getFrames = function() {
         return frames; 
     }
+
+    $.fn.getFramesCount = function() {
+        return frameCounter; 
+    }
          
     /* Next frame method updates current frame accordingly
      * (whether the frames collection is emtpy or not, it's gonna
