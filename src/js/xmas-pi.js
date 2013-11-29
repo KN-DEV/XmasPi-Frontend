@@ -1,4 +1,5 @@
 (  function ( $ ) {
+<<<<<<< HEAD
     /*Collection = function() {}*/
 
     //Collection.prototype.list = [];
@@ -18,6 +19,8 @@
         //col.displayElementAt(0);
     /*}*/
 
+=======
+>>>>>>> master
     /* Frames collection
        ===================================================*/
     var Frames = function() {};
@@ -49,6 +52,11 @@
     }
 
     /* properties
+<<<<<<< HEAD
+=======
+     *
+     * variables are 'static' - it works for now, probably should be fixed
+>>>>>>> master
      */
     var frames = new Frames();
     var frameCounter = 0;
@@ -73,6 +81,12 @@
         }
     }
 
+<<<<<<< HEAD
+=======
+    /* Checks if bulb is in it's on or off state, and changes the class
+     * accordingly
+     */
+>>>>>>> master
     var toggleLightBulb = function($this) {
         if ( $this.value == 0 ) {
             $($this).find('i').removeClass('fa-square').addClass('fa-square-o');
@@ -81,6 +95,12 @@
         } 
     }
 
+<<<<<<< HEAD
+=======
+    /* Toggles button value using previously saved frames collection,
+     * and changes it's class using toggleLightBulb function
+     */
+>>>>>>> master
     var toggleBulbs = function($this, frames) {
         console.log("Toggling bulbs");
         $this.find('button').each(function(i) {
@@ -100,6 +120,7 @@
         });
     }
          
+<<<<<<< HEAD
     //$.fn.addFrame = function() {
         //console.log(frames);
         //console.log(this);
@@ -109,6 +130,14 @@
         //console.log("Frame: " + frameCounter);
     //}
 
+=======
+    /* Next frame method updates current frame accordingly
+     * (whether the frames collection is emtpy or not, it's gonna
+     * push a new array, or assign current one).
+     * It clears the current bulb buttons, and increments frameCounter
+     * Then it toggles bulbs according to their button value
+     */
+>>>>>>> master
     $.fn.nextFrame = function() {
         console.log(frames);
         console.log(frames.list);
@@ -118,7 +147,13 @@
         toggleBulbs(this, frames);
         console.log("Frame: " + frameCounter);
     }
+<<<<<<< HEAD
 
+=======
+    
+    /* Same as before with pre update check of frame bounds
+     */
+>>>>>>> master
     $.fn.previousFrame = function() {
         if ( frameCounter-1 < 0 ) {
             frameCounter = 0; 

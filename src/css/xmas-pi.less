@@ -1,0 +1,47 @@
+// bootstrap media querries
+@sm: 750px;
+@md: 970px;
+@lg: 1170px;
+
+.btn {
+  text-decoration: none !important;
+}
+.btn:focus {
+  outline: 0;
+}
+
+// media querries used to prevent 
+// awesomefonts from moving
+button > .fa-square-o {
+  margin: 1.5px 1.5px;
+}
+button > .fa-square {
+  margin: 1.5px 1px;
+}
+
+@media (min-width: @sm) { 
+    button > .fa-square-o {
+      margin: 1.5px 1.5px;
+    }
+    button > .fa-square {
+      margin: 1.5px 0.5px;
+    }
+}
+
+@media (min-width: @md) { 
+    button > .fa-square-o {
+      margin: 1.5px 1.5px;
+    }
+    button > .fa-square {
+      margin: 1.5px 0px;
+    }
+}
+
+//@media (min-width: @lg) { 
+    //button > .fa-square-o {
+      //margin: 1.5px 1.5px;
+    //}
+    //button > .fa-square {
+      //margin: 1.5px 0px;
+    //}
+//}
