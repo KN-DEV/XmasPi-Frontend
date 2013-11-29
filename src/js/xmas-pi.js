@@ -46,11 +46,8 @@
     }
 
     /* properties
-<<<<<<< HEAD
-=======
      *
      * variables are 'static' - it works for now, probably should be fixed
->>>>>>> master
      */
     var frames = new Frames();
     var frameCounter = 0;
@@ -77,8 +74,6 @@
         //console.log("after Frame: " + frameCounter);
     //}
 
-<<<<<<< HEAD
-=======
     /* Checks if bulb is in it's on or off state, and changes the class
      * accordingly
      */
@@ -97,12 +92,9 @@
         } 
     }
 
-<<<<<<< HEAD
-=======
     /* Toggles button value using previously saved frames collection,
      * and changes it's class using toggleLightBulb function
      */
->>>>>>> master
     var toggleBulbs = function($this, frames) {
         $this.find('button').each(function(i) {
             //console.log(frameCounter);
@@ -138,7 +130,6 @@
         return frameCounter; 
     }
          
-<<<<<<< HEAD
     //$.fn.addFrame = function() {
         //console.log(frames);
         //console.log(this);
@@ -148,14 +139,12 @@
         //console.log("Frame: " + frameCounter);
     //}
 
-=======
     /* Next frame method updates current frame accordingly
      * (whether the frames collection is emtpy or not, it's gonna
      * push a new array, or assign current one).
      * It clears the current bulb buttons, and increments frameCounter
      * Then it toggles bulbs according to their button value
      */
->>>>>>> master
     $.fn.nextFrame = function() {
         console.log(frames.lengthOf());
         if ( frameCounter == frames.lengthOf()-1 ) {
@@ -172,13 +161,9 @@
             console.log("Frame: " + frameCounter);
         }
     }
-<<<<<<< HEAD
-
-=======
     
     /* Same as before with pre update check of frame bounds
      */
->>>>>>> master
     $.fn.previousFrame = function() {
         if ( frameCounter-1 < 0 ) {
             console.log("This is the first frame, you can't go back.");
