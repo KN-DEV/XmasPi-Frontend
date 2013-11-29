@@ -1,23 +1,4 @@
 (  function ( $ ) {
-    /*Collection = function() {}*/
-
-    //Collection.prototype.list = [];
-
-    //Collection.prototype.push = function(string) {
-        //this.list.push(string);
-    //}
-
-    //Collection.prototype.displayElementAt = function(index) {
-        //console.log(Collection.prototype.list[index]); 
-    //}
-
-    //$.fn.test = function(string) {
-        //col = new Collection();
-
-        //col.push(string);
-        //col.displayElementAt(0);
-    /*}*/
-
     /* Frames collection
        ===================================================*/
     var Frames = function() {};
