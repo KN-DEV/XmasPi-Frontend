@@ -54,36 +54,12 @@
 
     var SAVE_BULBS_POSITION = true;
 
-    /* adds current frame to Frames collection
-     * $this used to reference object calling the function
-     */
-    //var updateCurrentFrame = function($this, frames) {
-        //console.log("before Frame: " + frameCounter);
-        //var bulbArray = [];
-
-        //$this.find('button').each(function(i) {
-            //if ( this.value == "" ) {
-                //bulbArray[i] = 0;
-            //} else {
-                //bulbArray[i] = parseInt(this.value);
-            //}
-        //});
-        //console.log("Frames.indexAt(frameCounter):" + frames.indexAt(frameCounter-1));
-        //frames.assignArray(bulbArray, frameCounter-1);
-        
-        //console.log("after Frame: " + frameCounter);
-    //}
-
     /* Checks if bulb is in it's on or off state, and changes the class
      * accordingly
      */
 
     /* assigns value to the frames.list of given id
      */
-    $.fn.assignValue = function(id, value) {
-        frames.assignValue(frameCounter, id, value);
-    }
-
     var toggleLightBulb = function($this) {
         if ( $this.value == 0 || $this.value == undefined ) {
             $($this).find('i').removeClass('fa-square').addClass('fa-square-o');
@@ -97,9 +73,6 @@
      */
     var toggleBulbs = function($this, frames) {
         $this.find('button').each(function(i) {
-            //console.log(frameCounter);
-            //console.log(frames.indexAt(frameCounter)[i]); 
-            
             // checks if frame at frameCounter exists, if not
             // do nothing
             if ( frames.indexAt(frameCounter) ) {
@@ -168,17 +141,12 @@
     }
 
     $.fn.addFrame = function() {
-        //if ( frameCounter < frames.lengthOf() ) {
-            //updateCurrentFrame(this, frames);
-            //frameCounter = frames.lengthOf()-1;
-            //frames.assignArray(new Array(), frameCounter);
-            //console.log("Frame: " + frameCounter);
-        //} else {
-            //updateCurrentFrame(this, frames); 
-            //frameCounter++;
-            //frames.assignArray(new Array(), frameCounter);
-            //console.log("Frame: " + frameCounter);
-        //} 
         frames.push(new Array(NUM_OF_LIGHT_BULBS));
+    }
+
+    /* handler method used to assign values to frames
+     */
+    $.fn.assignValue = function(id, value) {
+        frames.assignValue(frameCounter, id, value);
     }
 }( jQuery ));
