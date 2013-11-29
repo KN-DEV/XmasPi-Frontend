@@ -36,6 +36,8 @@
     var frames = new Frames();
     var frameCounter = 0;
 
+    var SAVE_BULBS_POSITION = true;
+
     /* adds current frame to Frames collection
      * $this used to reference object calling the function
      */
@@ -99,7 +101,9 @@
         console.log(frames);
         console.log(frames.list);
         updateCurrentFrame(this, frames);
-        clearFrame(this);
+        if ( !SAVE_BULBS_POSITION ) {
+            clearFrame(this);
+        }
         frameCounter++;
         toggleBulbs(this, frames);
         console.log("Frame: " + frameCounter);

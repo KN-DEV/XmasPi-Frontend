@@ -10,7 +10,7 @@ button > .fa-square-o {
 button > .fa-square {
   margin: 1.5px -3px;
 }
-@media (min-width: 750px) {
+@media (min-width: 768px) {
   button > .fa-square-o {
     margin: 1.5px 1.5px;
   }
@@ -18,7 +18,7 @@ button > .fa-square {
     margin: 1.5px 0.5px;
   }
 }
-@media (min-width: 970px) {
+@media (min-width: 992px) {
   button > .fa-square-o {
     margin: 1.5px 1.5px;
   }

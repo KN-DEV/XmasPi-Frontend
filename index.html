@@ -337,11 +337,14 @@
     });
     </script>
     <script>
-        $('#next-frame').click(function() {
-             $('#tree-wrapper').nextFrame();
-        });
-        $('#previous-frame').click(function() {
-             $('#tree-wrapper').previousFrame();
-        });
+        // stupid fucking firefox
+        jQuery(function($) {
+            $('#next-frame').click(function() {
+                 $('#tree-wrapper').nextFrame();
+            });
+            $('#previous-frame').click(function() {
+                 $('#tree-wrapper').previousFrame();
+            });
+        })
     </script>
 </html>
