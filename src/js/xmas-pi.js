@@ -33,7 +33,7 @@
         this.list = [];
     }
 
-    Frames.prototype.indexAt = function(index) {
+    Frames.prototype.indexOf = function(index) {
         return this.list[index];
     }
 
@@ -45,6 +45,18 @@
         return this.list.length; 
     }
 
+    Frames.prototype.fill = function(array, index) {
+        for ( var i = 0; i < array.length; i++ ) {
+            this.list[index][i] = array[i];
+        } 
+    }
+
+    Frames.prototype.delete = function(index) {
+        if ( index > -1 ) {
+            this.list.splice(index, 1); 
+        }
+    }
+
     /* properties
      *
      * variables are 'static' - it works for now, probably should be fixed
@@ -53,27 +65,7 @@
     var frameCounter = 0;
 
     var SAVE_BULBS_POSITION = true;
-
-    /* adds current frame to Frames collection
-     * $this used to reference object calling the function
-     */
-    //var updateCurrentFrame = function($this, frames) {
-        //console.log("before Frame: " + frameCounter);
-        //var bulbArray = [];
-
-        //$this.find('button').each(function(i) {
-            //if ( this.value == "" ) {
-                //bulbArray[i] = 0;
-            //} else {
-                //bulbArray[i] = parseInt(this.value);
-            //}
-        //});
-        //console.log("Frames.indexAt(frameCounter):" + frames.indexAt(frameCounter-1));
-        //frames.assignArray(bulbArray, frameCounter-1);
-        
-        //console.log("after Frame: " + frameCounter);
-    //}
-
+    
     /* Checks if bulb is in it's on or off state, and changes the class
      * accordingly
      */
@@ -98,15 +90,15 @@
     var toggleBulbs = function($this, frames) {
         $this.find('button').each(function(i) {
             //console.log(frameCounter);
-            //console.log(frames.indexAt(frameCounter)[i]); 
+            //console.log(frames.indexOf(frameCounter)[i]); 
             
             // checks if frame at frameCounter exists, if not
             // do nothing
-            if ( frames.indexAt(frameCounter) ) {
-                if( frames.indexAt(frameCounter)[i] == undefined ) {
+            if ( frames.indexOf(frameCounter) ) {
+                if( frames.indexOf(frameCounter)[i] == undefined ) {
                     this.value = 0;
                 } else {
-                    this.value = frames.indexAt(frameCounter)[i];
+                    this.value = frames.indexOf(frameCounter)[i];
                 }
                 toggleLightBulb(this);
             }
@@ -127,7 +119,7 @@
     }
 
     $.fn.getFramesCount = function() {
-        return frameCounter; 
+        return frameCounter+1; 
     }
          
     //$.fn.addFrame = function() {
@@ -147,7 +139,7 @@
      */
     $.fn.nextFrame = function() {
         console.log(frames.lengthOf());
-        if ( frameCounter == frames.lengthOf()-1 ) {
+        if ( frameCounter >= frames.lengthOf()-1 ) {
             console.log("This is the last frame, you can't move forward");
             console.log("Frame: " + frameCounter); 
         } else {
@@ -176,18 +168,50 @@
         } 
     }
 
+    $.fn.moveToFrame = function(frame) {
+        clearFrame(this);
+        frames.fill(frames.indexOf(frame), frame);
+        frameCounter = frame;
+        toggleBulbs(this, frames);
+    }
+
+    /* appends empty array to frames collection, and fills it with content from
+     * previous frame
+     */
     $.fn.addFrame = function() {
-        //if ( frameCounter < frames.lengthOf() ) {
-            //updateCurrentFrame(this, frames);
-            //frameCounter = frames.lengthOf()-1;
-            //frames.assignArray(new Array(), frameCounter);
-            //console.log("Frame: " + frameCounter);
-        //} else {
-            //updateCurrentFrame(this, frames); 
-            //frameCounter++;
-            //frames.assignArray(new Array(), frameCounter);
-            //console.log("Frame: " + frameCounter);
-        //} 
         frames.push(new Array(NUM_OF_LIGHT_BULBS));
+        frames.fill(frames.indexOf(frames.lengthOf()-2),
+                frames.lengthOf()-1);
+        this.moveToFrame(frames.lengthOf()-1);
+    }
+
+    $.fn.inverseFrame = function() {
+        for ( var i = 0; i < NUM_OF_LIGHT_BULBS; i++ ) {
+            if ( frames.indexOf(frameCounter)[i] == 0 || 
+                    frames.indexOf(frameCounter)[i] == undefined ) {
+                frames.list[frameCounter][i] = 1;
+            } else {
+                frames.list[frameCounter][i] = 0;
+            }
+        }
+        toggleBulbs(this, frames);
+    }
+
+    $.fn.deleteFrame = function(index) {
+        // prevents deleting if there is only one frame left
+        if ( frames.lengthOf() > 1 ) {
+            if ( index == frames.lengthOf()-1 ) {
+                frames.delete(index);
+                frameCounter--;
+                clearFrame(this);
+                toggleBulbs(this, frames);
+            } else {
+                frames.delete(index);
+                clearFrame(this); 
+                toggleBulbs(this, frames);
+            }
+        } else {
+            console.log("No more frames, preventing deletion");
+        }
     }
 }( jQuery ));

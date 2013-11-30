@@ -9,11 +9,33 @@
         <title>X-Mas</title>
     </head>
     <body>
-        <div class ="row">
+        <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <button id="frame-counter" class="btn">1</button>
             </div>
         </div> 
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="next-frame" class="btn btn-link">
+                    Next frame</button>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="add-frame" class="btn btn-link">
+                    Add frame</button>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="previous-frame" class="btn btn-link">
+                    Previous frame</button>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="delete-frame" class="btn btn-link">
+                    Delete frame</button>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="inverse-frame" class="btn btn-link">
+                    Inverse frame</button>
+            </div>
+        </div>
         <div id="tree-wrapper" class="text-center">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -304,20 +326,6 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button id="next-frame" class="btn btn-link">
-                    Next frame</button>
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button id="add-frame" class="btn btn-link">
-                    Add frame</button>
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button id="previous-frame" class="btn btn-link">
-                    Previous frame</button>
-            </div>
-        </div>
     </body>  
     <!-- SCRIPTS -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -365,6 +373,14 @@
                 $('#tree-wrapper').addFrame();    
                 $('#frame-counter').html($().getFramesCount());
             });
+            $('#delete-frame').click(function() {
+                $('#tree-wrapper').deleteFrame($().getFramesCount()-1);
+                $('#frame-counter').html($().getFramesCount());
+            });
+            $('#inverse-frame').click(function() {
+                $('#tree-wrapper').inverseFrame();
+            });
+
         })
     </script>
 </html>
