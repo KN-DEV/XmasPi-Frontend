@@ -51,6 +51,12 @@
         } 
     }
 
+    Frames.prototype.delete = function(index) {
+        if ( index > -1 ) {
+            this.list.splice(index, 1); 
+        }
+    }
+
     /* properties
      *
      * variables are 'static' - it works for now, probably should be fixed
@@ -59,27 +65,7 @@
     var frameCounter = 0;
 
     var SAVE_BULBS_POSITION = true;
-
-    /* adds current frame to Frames collection
-     * $this used to reference object calling the function
-     */
-    //var updateCurrentFrame = function($this, frames) {
-        //console.log("before Frame: " + frameCounter);
-        //var bulbArray = [];
-
-        //$this.find('button').each(function(i) {
-            //if ( this.value == "" ) {
-                //bulbArray[i] = 0;
-            //} else {
-                //bulbArray[i] = parseInt(this.value);
-            //}
-        //});
-        //console.log("Frames.indexAt(frameCounter):" + frames.indexAt(frameCounter-1));
-        //frames.assignArray(bulbArray, frameCounter-1);
-        
-        //console.log("after Frame: " + frameCounter);
-    //}
-
+    
     /* Checks if bulb is in it's on or off state, and changes the class
      * accordingly
      */
@@ -144,7 +130,7 @@
      */
     $.fn.nextFrame = function() {
         console.log(frames.lengthOf());
-        if ( frameCounter == frames.lengthOf()-1 ) {
+        if ( frameCounter >= frames.lengthOf()-1 ) {
             console.log("This is the last frame, you can't move forward");
             console.log("Frame: " + frameCounter); 
         } else {
@@ -188,5 +174,22 @@
         frames.fill(frames.indexAt(frames.lengthOf()-2),
                 frames.lengthOf()-1);
         this.moveToFrame(frames.lengthOf()-1);
+    }
+
+    $.fn.deleteFrame = function(index) {
+        if ( frames.lengthOf() > 0 ) {
+            if ( index == frames.lengthOf()-1 ) {
+                frames.delete(index);
+                frameCounter--;
+                clearFrame(this);
+                toggleBulbs(this, frames);
+            } else {
+                frames.delete(index);
+                clearFrame(this); 
+                toggleBulbs(this, frames);
+            }
+        } else {
+            console.log("No more frames, preventing deletion");
+        }
     }
 }( jQuery ));
