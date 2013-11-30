@@ -33,7 +33,7 @@
         this.list = [];
     }
 
-    Frames.prototype.indexAt = function(index) {
+    Frames.prototype.indexOf = function(index) {
         return this.list[index];
     }
 
@@ -90,15 +90,15 @@
     var toggleBulbs = function($this, frames) {
         $this.find('button').each(function(i) {
             //console.log(frameCounter);
-            //console.log(frames.indexAt(frameCounter)[i]); 
+            //console.log(frames.indexOf(frameCounter)[i]); 
             
             // checks if frame at frameCounter exists, if not
             // do nothing
-            if ( frames.indexAt(frameCounter) ) {
-                if( frames.indexAt(frameCounter)[i] == undefined ) {
+            if ( frames.indexOf(frameCounter) ) {
+                if( frames.indexOf(frameCounter)[i] == undefined ) {
                     this.value = 0;
                 } else {
-                    this.value = frames.indexAt(frameCounter)[i];
+                    this.value = frames.indexOf(frameCounter)[i];
                 }
                 toggleLightBulb(this);
             }
@@ -161,7 +161,7 @@
 
     $.fn.moveToFrame = function(frame) {
         clearFrame(this);
-        frames.fill(frames.indexAt(frame), frame);
+        frames.fill(frames.indexOf(frame), frame);
         frameCounter = frame;
         toggleBulbs(this, frames);
     }
@@ -171,13 +171,26 @@
      */
     $.fn.addFrame = function() {
         frames.push(new Array(NUM_OF_LIGHT_BULBS));
-        frames.fill(frames.indexAt(frames.lengthOf()-2),
+        frames.fill(frames.indexOf(frames.lengthOf()-2),
                 frames.lengthOf()-1);
         this.moveToFrame(frames.lengthOf()-1);
     }
 
+    $.fn.inverseFrame = function() {
+        for ( var i = 0; i < NUM_OF_LIGHT_BULBS; i++ ) {
+            if ( frames.indexOf(frameCounter)[i] == 0 || 
+                    frames.indexOf(frameCounter)[i] == undefined ) {
+                frames.list[frameCounter][i] = 1;
+            } else {
+                frames.list[frameCounter][i] = 0;
+            }
+        }
+        toggleBulbs(this, frames);
+    }
+
     $.fn.deleteFrame = function(index) {
-        if ( frames.lengthOf() > 0 ) {
+        // prevents deleting if there is only one frame left
+        if ( frames.lengthOf() > 1 ) {
             if ( index == frames.lengthOf()-1 ) {
                 frames.delete(index);
                 frameCounter--;

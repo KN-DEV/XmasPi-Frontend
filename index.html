@@ -30,6 +30,10 @@
                 <button id="delete-frame" class="btn btn-link">
                     Delete frame</button>
             </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="inverse-frame" class="btn btn-link">
+                    Inverse frame</button>
+            </div>
         </div>
         <div id="tree-wrapper" class="text-center">
             <div class="row">
@@ -372,6 +376,10 @@
                 $('#tree-wrapper').deleteFrame($().getFramesCount()-1);
                 $('#frame-counter').html($().getFramesCount());
             });
+            $('#inverse-frame').click(function() {
+                $('#tree-wrapper').inverseFrame();
+            });
+
         })
     </script>
 </html>
