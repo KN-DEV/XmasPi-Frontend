@@ -105,13 +105,19 @@
         });
     }
 
-    var clearFrame = function($this) {
-        $this.find('button').each(function() {
-            this.value = 0;
+    $.fn.clearFrame = function() {
+        this.find('button').each(function() {
+            $(this).value = 0;
         });
-        $this.find('i').each(function() {
+        this.find('i').each(function() {
             $(this).removeClass('fa-square').addClass('fa-square-o');
         });
+    }
+
+    $.fn.resetValues = function() {
+        for ( var i = 0; i < NUM_OF_LIGHT_BULBS; i++ ) {
+            frames.indexOf(frameCounter)[i] = 0; 
+        } 
     }
 
     $.fn.getFrames = function() {
@@ -135,7 +141,7 @@
             console.log("Frame: " + frameCounter); 
         } else {
             if ( !SAVE_BULBS_POSITION ) {
-                clearFrame(this);
+                this.clearFrame();
             }
             console.log(frames);
             console.log(frames.list);
@@ -152,7 +158,7 @@
             console.log("This is the first frame, you can't go back.");
             console.log("Frame: " + frameCounter);
         } else {
-            clearFrame(this);
+            this.clearFrame();
             frameCounter--;
             toggleBulbs(this, frames);
             console.log("Frame: " + frameCounter);
@@ -160,7 +166,7 @@
     }
 
     $.fn.moveToFrame = function(frame) {
-        clearFrame(this);
+        this.clearFrame();
         frames.fill(frames.indexOf(frame), frame);
         frameCounter = frame;
         toggleBulbs(this, frames);
@@ -194,11 +200,11 @@
             if ( index == frames.lengthOf()-1 ) {
                 frames.delete(index);
                 frameCounter--;
-                clearFrame(this);
+                this.clearFrame();
                 toggleBulbs(this, frames);
             } else {
                 frames.delete(index);
-                clearFrame(this); 
+                this.clearFrame(); 
                 toggleBulbs(this, frames);
             }
         } else {

@@ -31,6 +31,10 @@
                     Delete frame</button>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="clear-frame" class="btn btn-link">
+                    Clear frame</button>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <button id="inverse-frame" class="btn btn-link">
                     Inverse frame</button>
             </div>
@@ -379,7 +383,10 @@
             $('#inverse-frame').click(function() {
                 $('#tree-wrapper').inverseFrame();
             });
-
+            $('#clear-frame').click(function() {
+                $('#tree-wrapper').clearFrame();
+                $().resetValues();
+            });
         })
     </script>
 </html>
