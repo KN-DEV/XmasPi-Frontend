@@ -58,16 +58,6 @@
      * accordingly
      */
 
-    /* assigns value to the frames.list of given id
-     */
-    var toggleLightBulb = function($this) {
-        if ( $this.value == 0 || $this.value == undefined ) {
-            $($this).find('i').removeClass('fa-square').addClass('fa-square-o');
-        } else {
-            $($this).find('i').removeClass('fa-square-o').addClass('fa-square');
-        } 
-    }
-
     /* Toggles button value using previously saved frames collection,
      * and changes it's class using toggleLightBulb function
      */
@@ -76,12 +66,19 @@
             // checks if frame at frameCounter exists, if not
             // do nothing
             if ( frames.indexAt(frameCounter) ) {
+                // handles 'frames' assignment
                 if( frames.indexAt(frameCounter)[i] == undefined ) {
                     this.value = 0;
                 } else {
                     this.value = frames.indexAt(frameCounter)[i];
                 }
-                toggleLightBulb(this);
+
+                // handles class change
+                if ( $this.value == 0 || $this.value == undefined ) {
+                    $($this).find('i').removeClass('fa-square').addClass('fa-square-o');
+                } else {
+                    $($this).find('i').removeClass('fa-square-o').addClass('fa-square');
+                } 
             }
         });
     }
@@ -92,39 +89,7 @@
         });
         $this.find('i').each(function() {
             $(this).removeClass('fa-square').addClass('fa-square-o');
-        });
-    }
-
-    $.fn.getFrames = function() {
-        return frames; 
-    }
-
-    $.fn.getFramesCount = function() {
-        return frameCounter; 
-    }
-         
-    /* Next frame method updates current frame accordingly
-     * (whether the frames collection is emtpy or not, it's gonna
-     * push a new array, or assign current one).
-     * It clears the current bulb buttons, and increments frameCounter
-     * Then it toggles bulbs according to their button value
-     */
-    $.fn.nextFrame = function() {
-        console.log(frames.lengthOf());
-        if ( frameCounter == frames.lengthOf()-1 ) {
-            console.log("This is the last frame, you can't move forward");
-            console.log("Frame: " + frameCounter); 
-        } else {
-            if ( !SAVE_BULBS_POSITION ) {
-                clearFrame(this);
-            }
-            console.log(frames);
-            console.log(frames.list);
-            frameCounter++;
-            toggleBulbs(this, frames);
-            console.log("Frame: " + frameCounter);
-        }
-    }
+        })}
     
     /* Same as before with pre update check of frame bounds
      */
@@ -148,5 +113,6 @@
      */
     $.fn.assignValue = function(id, value) {
         frames.assignValue(frameCounter, id, value);
+        //console.log(frames.list);
     }
 }( jQuery ));
