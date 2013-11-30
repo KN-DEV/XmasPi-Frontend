@@ -173,9 +173,20 @@
         } 
     }
 
+    $.fn.moveToFrame = function(frame) {
+        clearFrame(this);
+        frames.fill(frames.indexAt(frame), frame);
+        frameCounter = frame;
+        toggleBulbs(this, frames);
+    }
+
+    /* appends empty array to frames collection, and fills it with content from
+     * previous frame
+     */
     $.fn.addFrame = function() {
         frames.push(new Array(NUM_OF_LIGHT_BULBS));
         frames.fill(frames.indexAt(frames.lengthOf()-2),
                 frames.lengthOf()-1);
+        this.moveToFrame(frames.lengthOf()-1);
     }
 }( jQuery ));
