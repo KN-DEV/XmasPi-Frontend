@@ -39,8 +39,13 @@
                 <button id="inverse-frame" class="btn btn-link">
                     Inverse frame</button>
             </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="to-json" class="btn btn-link" data-toggle="modal" data-target="#myModal">
+                     Tojson</button>
+            </div>
         </div>
         <div id="tree-wrapper" class="text-center">
+            <!-- TREE -->
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <button id="1" class="btn btn-link light">
@@ -330,6 +335,23 @@
                 </div>
             </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Json</h4>
+              </div>
+              <div id="myModalBody" class="modal-body">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </body>  
     <!-- SCRIPTS -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -388,6 +410,9 @@
                 $('#tree-wrapper').clearFrame();
                 $().resetValues();
             });
+            $('#to-json').click(function() {
+                $('#myModalBody')._framesToJson();        
+            })
         })
     </script>
 </html>
