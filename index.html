@@ -388,19 +388,19 @@
         jQuery(function($) {
             $('#next-frame').click(function() {
                  $('#tree-wrapper').nextFrame();
-                 $('#frame-counter').html($().getFramesCount());
+                 $('#frame-counter').html($().getFramesCount()+1);
             });
             $('#previous-frame').click(function() {
                  $('#tree-wrapper').previousFrame();
-                 $('#frame-counter').html($().getFramesCount());
+                 $('#frame-counter').html($().getFramesCount()+1);
             });
             $('#add-frame').click(function() {
                 $('#tree-wrapper').addFrame();    
-                $('#frame-counter').html($().getFramesCount());
+                $('#frame-counter').html($().getFramesCount()+1);
             });
             $('#delete-frame').click(function() {
-                $('#tree-wrapper').deleteFrame($().getFramesCount()-1);
-                $('#frame-counter').html($().getFramesCount());
+                $('#tree-wrapper').deleteFrame($().getFramesCount());
+                $('#frame-counter').html($().getFramesCount()+1);
             });
             $('#inverse-frame').click(function() {
                 $('#tree-wrapper').inverseFrame();

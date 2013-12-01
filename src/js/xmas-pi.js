@@ -33,6 +33,12 @@
         this.list[index][id] = value; 
     }
 
+    /* jquery function which assigns value to the frames.list of given id
+     */
+    $.fn.assignValue = function(id, value) {
+        frames.assignValue(frameCounter, id, value);
+    }
+
     Frames.prototype._empty = function() {
         this.list = [];
     }
@@ -95,7 +101,8 @@
         return JSON.stringify(ob, 2);
     }
 
-    /* properties
+    /* ==== PROPERTIES ==== 
+     * ====================
      *
      * variables are 'static' - it works for now, probably should be fixed
      */
@@ -103,68 +110,48 @@
     var frameCounter = 0;
 
     var SAVE_BULBS_POSITION = true;
-    
-    /* Checks if bulb is in it's on or off state, and changes the class
-     * accordingly
-     */
-    var toggleLightBulb = function($this) {
-        if ( $this.value == 0 || $this.value == undefined ) {
-            $($this).find('i').removeClass('fa-square').addClass('fa-square-o');
-        } else {
-            $($this).find('i').removeClass('fa-square-o').addClass('fa-square');
-        } 
-    }
 
-    /* Toggles button value using previously saved frames collection,
-     * and changes it's class using toggleLightBulb function
-     */
-    var toggleBulbs = function($this, frames) {
-        $this.find('button').each(function(i) {
-            //console.log(frameCounter);
-            //console.log(frames.indexOf(frameCounter)[i]); 
-            
-            // checks if frame at frameCounter exists, if not
-            // do nothing
-            if ( frames.indexOf(frameCounter) ) {
-                if( frames.indexOf(frameCounter)[i] == undefined ) {
-                    this.value = 0;
-                } else {
-                    this.value = frames.indexOf(frameCounter)[i];
-                }
-                toggleLightBulb(this);
-            }
-        });
-    }
 
-    /* assigns value to the frames.list of given id
-     */
-    $.fn.assignValue = function(id, value) {
-        frames.assignValue(frameCounter, id, value);
-    }
+    /* ==== JQUERY FUNCTIONS ====
+     * ==========================
+     */ 
 
-    $.fn.clearFrame = function() {
-        this.find('button').each(function() {
-            $(this).value = 0;
-        });
-        this.find('i').each(function() {
-            $(this).removeClass('fa-square').addClass('fa-square-o');
-        });
-    }
-
-    $.fn.resetValues = function() {
-        for ( var i = 0; i < NUM_OF_LIGHT_BULBS; i++ ) {
-            frames.indexOf(frameCounter)[i] = 0; 
-        } 
+    $.fn.getFramesCount = function() {
+        return frameCounter; 
     }
 
     $.fn.getFrames = function() {
         return frames; 
     }
 
-    $.fn.getFramesCount = function() {
-        return frameCounter+1; 
+    /* appends empty array to frames collection, and fills it with content from
+     * previous frame
+     */
+    $.fn.addFrame = function() {
+        frames.push(new Array(NUM_OF_LIGHT_BULBS));
+        frames.fill(frames.indexOf(frames.lengthOf()-2),
+                frames.lengthOf()-1);
+        this.moveToFrame(frames.lengthOf()-1);
     }
-         
+
+    $.fn.deleteFrame = function(index) {
+        // prevents deleting if there is only one frame left
+        if ( frames.lengthOf() > 1 ) {
+            if ( index == frames.lengthOf()-1 ) {
+                frames.delete(index);
+                frameCounter--;
+                this.clearFrame();
+                toggleBulbs(this, frames);
+            } else {
+                frames.delete(index);
+                this.clearFrame(); 
+                toggleBulbs(this, frames);
+            }
+        } else {
+            console.log("No more frames, preventing deletion");
+        }
+    }
+
     /* Next frame method updates current frame accordingly
      * (whether the frames collection is emtpy or not, it's gonna
      * push a new array, or assign current one).
@@ -187,7 +174,7 @@
             console.log("Frame: " + frameCounter);
         }
     }
-    
+
     /* Same as before with pre update check of frame bounds
      */
     $.fn.previousFrame = function() {
@@ -209,15 +196,23 @@
         toggleBulbs(this, frames);
     }
 
-    /* appends empty array to frames collection, and fills it with content from
-     * previous frame
-     */
-    $.fn.addFrame = function() {
-        frames.push(new Array(NUM_OF_LIGHT_BULBS));
-        frames.fill(frames.indexOf(frames.lengthOf()-2),
-                frames.lengthOf()-1);
-        this.moveToFrame(frames.lengthOf()-1);
+    $.fn.clearFrame = function() {
+        this.find('button').each(function() {
+            $(this).value = 0;
+        });
+        this.find('i').each(function() {
+            $(this).removeClass('fa-square').addClass('fa-square-o');
+        });
     }
+
+    $.fn.resetValues = function() {
+        for ( var i = 0; i < NUM_OF_LIGHT_BULBS; i++ ) {
+            frames.indexOf(frameCounter)[i] = 0; 
+        } 
+    }
+    /* Toggles button value using previously saved frames collection,
+     * and changes it's class using toggleLightBulb function
+     */
 
     $.fn.inverseFrame = function() {
         for ( var i = 0; i < NUM_OF_LIGHT_BULBS; i++ ) {
@@ -231,24 +226,6 @@
         toggleBulbs(this, frames);
     }
 
-    $.fn.deleteFrame = function(index) {
-        // prevents deleting if there is only one frame left
-        if ( frames.lengthOf() > 1 ) {
-            if ( index == frames.lengthOf()-1 ) {
-                frames.delete(index);
-                frameCounter--;
-                this.clearFrame();
-                toggleBulbs(this, frames);
-            } else {
-                frames.delete(index);
-                this.clearFrame(); 
-                toggleBulbs(this, frames);
-            }
-        } else {
-            console.log("No more frames, preventing deletion");
-        }
-    }
-
     /* function used to assign json to html of jquery object
      */
     $.fn._framesToJson = function() {
@@ -260,5 +237,34 @@
         };
 
         this.html(JSON.stringify(objectToJson, 2));
+    }
+
+    var toggleBulbs = function($this, frames) {
+        $this.find('button').each(function(i) {
+            //console.log(frameCounter);
+            //console.log(frames.indexOf(frameCounter)[i]); 
+            
+            // checks if frame at frameCounter exists, if not
+            // do nothing
+            if ( frames.indexOf(frameCounter) ) {
+                if( frames.indexOf(frameCounter)[i] == undefined ) {
+                    this.value = 0;
+                } else {
+                    this.value = frames.indexOf(frameCounter)[i];
+                }
+                toggleLightBulb(this);
+            }
+        });
+    }
+
+    /* Checks if bulb is in it's on or off state, and changes the class
+     * accordingly
+     */
+    var toggleLightBulb = function($this) {
+        if ( $this.value == 0 || $this.value == undefined ) {
+            $($this).find('i').removeClass('fa-square').addClass('fa-square-o');
+        } else {
+            $($this).find('i').removeClass('fa-square-o').addClass('fa-square');
+        } 
     }
 }( jQuery ));
