@@ -10,6 +10,10 @@
      */
     Frames.prototype.list = [new Array(NUM_OF_LIGHT_BULBS)];
 
+    Frames.prototype.returnList = function() {
+        return this.list; 
+    }
+
     Frames.prototype.push = function(array) {
         console.log("Pushing new array");
         this.list.push(array);
@@ -57,6 +61,40 @@
         }
     }
 
+    Frames.prototype.normalizeValues = function() {
+        for ( var i = 0; i < this.lengthOf(); i++ ) {
+            for ( var k = 0; k < NUM_OF_LIGHT_BULBS; k++ ) {
+                // this function is used to get rid of null values in 
+                // frames.list
+                //
+                // for every element of frames.list
+                // assign value according to it's initial value
+                // 0 and 1 won't change, while 0 will be assigned to null elements
+                this.assignValue(i, k,
+                        this.indexOf(i)[k] == 0 || 
+                        this.indexOf(i)[k] == null ?
+                                0 : 1 ); 
+            } 
+        }
+    }
+
+    /* method returns json in string form containing:
+     *
+     * frames - two dimensional array of frames
+     */
+    Frames.prototype.returnJson = function() {
+        var _this = this;
+
+        this.normalizeValues();
+        var ob = {
+            frames: _this.returnList()
+        };
+
+        // JSON.stringify(object, spaces)
+        // param spaces is used to set identation
+        return JSON.stringify(ob, 2);
+    }
+
     /* properties
      *
      * variables are 'static' - it works for now, probably should be fixed
@@ -69,13 +107,6 @@
     /* Checks if bulb is in it's on or off state, and changes the class
      * accordingly
      */
-
-    /* assigns value to the frames.list of given id
-     */
-    $.fn.assignValue = function(id, value) {
-        frames.assignValue(frameCounter, id, value);
-    }
-
     var toggleLightBulb = function($this) {
         if ( $this.value == 0 || $this.value == undefined ) {
             $($this).find('i').removeClass('fa-square').addClass('fa-square-o');
@@ -103,6 +134,12 @@
                 toggleLightBulb(this);
             }
         });
+    }
+
+    /* assigns value to the frames.list of given id
+     */
+    $.fn.assignValue = function(id, value) {
+        frames.assignValue(frameCounter, id, value);
     }
 
     $.fn.clearFrame = function() {
@@ -210,5 +247,18 @@
         } else {
             console.log("No more frames, preventing deletion");
         }
+    }
+
+    /* function used to assign json to html of jquery object
+     */
+    $.fn._framesToJson = function() {
+        frames.normalizeValues();
+
+        var objectToJson = {
+            // author
+            frames: frames.returnList()
+        };
+
+        this.html(JSON.stringify(objectToJson, 2));
     }
 }( jQuery ));

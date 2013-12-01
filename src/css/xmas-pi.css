@@ -1,3 +1,6 @@
+.modal .modal-body {
+  overflow-y: auto;
+}
 .btn {
   text-decoration: none !important;
 }
