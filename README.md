@@ -1,9 +1,4 @@
-xmas-pi-frontend
-================
+DEPRECATED
+==================
 
-Client-side code for use with the Xmas-Pi project
-
-gh-page
-================
-URL to gh-page of xmas-pi-frontend project containing latest build
-http://kn-dev.github.io/xmas-pi-frontend/
+Repository merged with [KN-DEV/XmasPi-REST](https://github.com/KN-DEV/XmasPi-REST)
