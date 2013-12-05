@@ -382,26 +382,20 @@
     $('button.light').click(function() {
         toggleLightBulb(this)
     });
-    //$('#tree-wrapper').on("mousedown", function() {
-    //    console.log("entering mousedown");
-    //    $('#tree-wrapper').on("mouseup", function() {
-    //        console.log("entering mouseup");
-    //        return false;
-    //    })
-    //    $('button.light').on("mouseenter", function() {
-    //        console.log("entering mouseenter");
-    //        toggleLightBulb(this);
-    //    })
-    //});
     $('#tree-wrapper').on("mousedown", function() {
-        console.log("MOUSEDOWN BIATCH");
         $('button.light').bind('mouseenter', function() {
-            console.log("HOVER BITCH");
-            toggleLightBulb(this);
+            if ( $(this).hasClass('toggled') ) {
+                console.log("bulb already toggled!");
+            } else {
+                toggleLightBulb(this);
+                $(this).addClass("toggled");
+            }
         });
         }).on("mouseup", function() {
-            console.log("MOUSEUP BITCH");
-            $('button.light').unbind('mouseenter');    
+            $('button.light').unbind('mouseenter');
+            $.each( $('button.light'), function() {
+                $('button.light').removeClass("toggled");
+            });
         });
     </script>
     <script>
