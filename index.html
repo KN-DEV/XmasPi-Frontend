@@ -42,6 +42,10 @@
                 <button id="to-json" class="btn btn-link" data-toggle="modal" data-target="#myModal">
                      Tojson</button>
             </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button id="toggle-eraser" class="btn btn-link">
+                     Toggle eraser</button>
+            </div>
         </div>
         <div id="tree-wrapper" class="text-center">
             <!-- TREE -->
@@ -358,6 +362,11 @@
     <script type="text/javascript" src="src/js/xmas-pi.js"></script>
     <!-- LIGHT BULB TOGGLING -->
     <script>
+        var options = {
+            eraser: false  
+        }
+    </script>
+    <script>
     var toggleLightBulb = function($this) {
         var id = $this.id-1;
         console.log(id);
@@ -367,7 +376,8 @@
                 $(value).removeClass('fa-square').addClass('fa-square-o');
             });
             $this.value = '0';
-            console.log('Light ' + $this.id + ' :' + $this.name + ' turned off');
+            console.log('Light ' + $this.id + ' :' + $this.name 
+                    + ' turned off');
             $('tree-wrapper').assignValue(id, $this.value);
         } else {
             $($this).find('i').each(function(index, value) {
@@ -375,24 +385,51 @@
             });
             $this.value = '1';
             $('tree-wrapper').assignValue(id, $this.value);
-            console.log('Light ' + $this.id + ' :' + $this.name + ' turned on');
+            console.log('Light ' + $this.id + ' :' + $this.name 
+                    + ' turned on');
         }
+    }
+
+    var turnLightBulbOff = function($this) {
+        var id = $this.id-1;
+    
+        $($this).find('i').each(function(index, value) {
+            $(value).removeClass('fa-square').addClass('fa-square-o');
+        });
+        $this.value = '0';
+        console.log('Light ' + $this.id + ' :' + $this.name 
+                + ' turned off');
+        $('tree-wrapper').assignValue(id, $this.value);
+    }
+
+    var turnLightBulbOn = function($this) {
+        $($this).find('i').each(function(index, value) {
+            $(value).removeClass('fa-square-o').addClass('fa-square');
+        });
+        $this.value = '1';
+        $('tree-wrapper').assignValue(id, $this.value);
+        console.log('Light ' + $this.id + ' :' + $this.name 
+                + ' turned on');
     }
     
     $('button.light').click(function() {
         toggleLightBulb(this)
     });
     $('#tree-wrapper').on("mousedown", function() {
-        $('button.light').bind('mouseenter', function() {
+        $('button.light').bind('mouseover', function() {
             if ( $(this).hasClass('toggled') ) {
                 console.log("bulb already toggled!");
             } else {
-                toggleLightBulb(this);
+                if ( options.eraser == true ) {
+                    turnLightBulbOff(this); 
+                } else {
+                    turnLightBulbOn(this);
+                }
                 $(this).addClass("toggled");
             }
         });
         }).on("mouseup", function() {
-            $('button.light').unbind('mouseenter');
+            $('button.light').unbind('mouseover');
             $.each( $('button.light'), function() {
                 $('button.light').removeClass("toggled");
             });
@@ -431,6 +468,13 @@
                 var data = $('#tree-wrapper').framesToJson();
                 $().ajaxPost(data);
             });
+            $('#toggle-eraser').click(function() {
+                if ( options.eraser == true ) {
+                    options.eraser = false; 
+                } else {
+                    options.eraser = true; 
+                }  
+            })
         })
     </script>
 </html>
