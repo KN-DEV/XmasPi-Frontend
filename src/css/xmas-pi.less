@@ -2,6 +2,20 @@
     overflow-y: auto;
 }
 
+#toolbar {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#tree-wrapper {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 // bootstrap media querries
 @sm: 768px;
 @md: 992px;
@@ -12,6 +26,19 @@
 }
 .btn:focus {
   outline: 0;
+}
+
+@media (min-width: @md) { 
+  .light {
+      padding-left: 0;
+      padding-right: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+
+      margin-top: -5px;
+      margin-left: 4px;
+      margin-right: 4px;
+  }
 }
 
 // media querries used to prevent 
@@ -32,14 +59,14 @@ button > .fa-square {
     }
 }
 
-@media (min-width: @md) { 
-    button > .fa-square-o {
-      margin: 1.5px 1.5px;
-    }
-    button > .fa-square {
-      margin: 1.5px 0px;
-    }
-}
+//@media (min-width: @md) { 
+    //button > .fa-square-o {
+      //margin: 1.5px 1.5px;
+    //}
+    //button > .fa-square {
+      //margin: 1.5px 0px;
+    //}
+//}
 
 //@media (min-width: @lg) { 
     //button > .fa-square-o {
