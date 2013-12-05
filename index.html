@@ -346,7 +346,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button id="submit" type="button" class="btn btn-primary">Submit</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
@@ -380,8 +380,29 @@
     }
     
     $('button.light').click(function() {
-            toggleLightBulb(this)
+        toggleLightBulb(this)
     });
+    //$('#tree-wrapper').on("mousedown", function() {
+    //    console.log("entering mousedown");
+    //    $('#tree-wrapper').on("mouseup", function() {
+    //        console.log("entering mouseup");
+    //        return false;
+    //    })
+    //    $('button.light').on("mouseenter", function() {
+    //        console.log("entering mouseenter");
+    //        toggleLightBulb(this);
+    //    })
+    //});
+    $('#tree-wrapper').on("mousedown", function() {
+        console.log("MOUSEDOWN BIATCH");
+        $('button.light').bind('mouseenter', function() {
+            console.log("HOVER BITCH");
+            toggleLightBulb(this);
+        });
+        }).on("mouseup", function() {
+            console.log("MOUSEUP BITCH");
+            $('button.light').unbind('mouseenter');    
+        });
     </script>
     <script>
         // stupid fucking firefox 
@@ -412,6 +433,10 @@
             $('#to-json').click(function() {
                 $('#myModalBody')._framesToJson();        
             })
+            $('#submit').click(function() {
+                var data = $('#tree-wrapper').framesToJson();
+                $().ajaxPost(data);
+            });
         })
     </script>
 </html>

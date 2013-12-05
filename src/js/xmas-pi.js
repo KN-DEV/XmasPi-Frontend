@@ -98,7 +98,7 @@
 
         // JSON.stringify(object, spaces)
         // param spaces is used to set identation
-        return JSON.stringify(ob, 2);
+        return JSON.stringify(ob, 0);
     }
 
     /* ==== PROPERTIES ==== 
@@ -115,6 +115,19 @@
     /* ==== JQUERY FUNCTIONS ====
      * ==========================
      */ 
+
+    $.fn.ajaxPost = function(data) {
+        var URL = "http://dev.uek.krakow.pl/~wiped/" + 
+                "XmasPi-REST/public/index.php/animation/add";
+        $.ajax({
+            type: 'POST',
+            url: URL,
+            data: data,
+            success: function(response) {
+                console.log(response); 
+            }
+        });
+    }
 
     $.fn.getFramesCount = function() {
         return frameCounter; 
@@ -237,6 +250,14 @@
         };
 
         this.html(JSON.stringify(objectToJson, 2));
+    }
+
+    /* function used to assign json to html of jquery object
+     */
+    $.fn.framesToJson = function() {
+        var json = frames.returnJson();
+
+        return json;
     }
 
     var toggleBulbs = function($this, frames) {
