@@ -7,7 +7,6 @@
         <link rel="stylesheet" href="src/css/xmas-pi.css"/>
        
         <title>X-Mas</title>
-    </head>
     <body>
         <!--<div class="row">-->
             <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
@@ -469,5 +468,23 @@
                 }  
             })
         })
+    </script>
+    <script> // no double tap zoom
+        (function($) {
+          $.fn.nodoubletapzoom = function() {
+              $(this).bind('touchstart', function preventZoom(e) {
+                var t2 = e.timeStamp
+                  , t1 = $(this).data('lastTouch') || t2
+                  , dt = t2 - t1
+                  , fingers = e.originalEvent.touches.length;
+                $(this).data('lastTouch', t2);
+                if (!dt || dt > 500 || fingers > 1) return; // not double-tap
+
+                e.preventDefault(); // double tap - prevent the zoom
+                // also synthesize click events we just swallowed up
+                $(this).trigger('click').trigger('click');
+              });
+          };
+        })(jQuery);
     </script>
 </html>
