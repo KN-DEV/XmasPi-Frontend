@@ -109,9 +109,6 @@
     var frames = new Frames();
     var frameCounter = 0;
 
-    var SAVE_BULBS_POSITION = true;
-
-
     /* ==== JQUERY FUNCTIONS ====
      * ==========================
      */ 
@@ -165,6 +162,32 @@
         }
     }
 
+    $.fn.animateFrame = function(direction, value, duration, callback) { 
+        if ( direction = "horizontal" ) {
+            $(this).animate({
+                marginLeft: value + "px",
+                easing: "swing",
+                opacity: 0 
+            }, duration, function() {
+                callback();
+                value = -value;
+                $(this).css("margin-left", value); 
+                $(this).animate({
+                    marginLeft: "0px",
+                    easing: "swing",
+                    opacity: 1 
+                }, duration);
+            }); 
+            return;
+        }
+
+        if ( direction = "vertical" ) {
+             
+        }
+        
+        console.log('Wrong argument, "horizontal" or "vertical" expected');
+    }
+
     /* Next frame method updates current frame accordingly
      * (whether the frames collection is emtpy or not, it's gonna
      * push a new array, or assign current one).
@@ -177,14 +200,15 @@
             console.log("This is the last frame, you can't move forward");
             console.log("Frame: " + frameCounter); 
         } else {
-            if ( !SAVE_BULBS_POSITION ) {
+            $(this).animateFrame("horizontal", -200, 100, function() {
                 $(this).clearFrame();
-            }
-            console.log(frames);
-            console.log(frames.list);
-            frameCounter++;
-            $(this).toggleBulbs(frames);
-            console.log("Frame: " + frameCounter);
+                console.log(frames);
+                console.log(frames.list);
+                frameCounter++;
+                $(this).toggleBulbs(frames);
+                console.log("Frame: " + frameCounter);
+                $('#frame-counter').html($().getFramesCount()+1);
+            })
         }
     }
 
@@ -195,10 +219,15 @@
             console.log("This is the first frame, you can't go back.");
             console.log("Frame: " + frameCounter);
         } else {
-            $(this).clearFrame();
-            frameCounter--;
-            $(this).toggleBulbs(frames);
-            console.log("Frame: " + frameCounter);
+            $(this).animateFrame("horizontal", 200, 100, function() {
+                $(this).clearFrame();
+                console.log(frames);
+                console.log(frames.list);
+                frameCounter--;
+                $(this).toggleBulbs(frames);
+                console.log("Frame: " + frameCounter);
+                $('#frame-counter').html($().getFramesCount()+1);
+            })
         } 
     }
 
@@ -262,6 +291,7 @@
 
     $.fn.toggleBulbs = function(frames) {
         $(this).find('button').each(function(i) {
+            console.log("TOGGLING BIOTCH");
             //console.log(frameCounter);
             //console.log(frames.indexOf(frameCounter)[i]); 
             
