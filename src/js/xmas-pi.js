@@ -134,58 +134,60 @@
         return frames; 
     }
 
+    $.fn.animateFrame = function(value, duration, callback) { 
+        $(this).animate({
+            marginLeft: value + "px",
+            easing: "swing",
+            opacity: 0 
+        }, duration, function() {
+            callback();
+            value = -value;
+            $(this).css("margin-left", value); 
+            $(this).animate({
+                marginLeft: "0px",
+                easing: "swing",
+                opacity: 1 
+            }, duration);
+        }); 
+    }
+
     /* appends empty array to frames collection, and fills it with content from
      * previous frame
      */
     $.fn.addFrame = function() {
-        frames.push(new Array(NUM_OF_LIGHT_BULBS));
-        frames.fill(frames.indexOf(frames.lengthOf()-2),
-                frames.lengthOf()-1);
-        $(this).moveToFrame(frames.lengthOf()-1);
+        $(this).animateFrame(-200, 100, function() {
+            frames.push(new Array(NUM_OF_LIGHT_BULBS));
+            frames.fill(frames.indexOf(frames.lengthOf()-2),
+                    frames.lengthOf()-1);
+            $(this).moveToFrame(frames.lengthOf()-1);
+            $('#frame-counter').html($().getFramesCount()+1);
+        })
     }
 
     $.fn.deleteFrame = function(index) {
         // prevents deleting if there is only one frame left
         if ( frames.lengthOf() > 1 ) {
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
             if ( index == frames.lengthOf()-1 ) {
-                frames.delete(index);
-                frameCounter--;
-                $(this).clearFrame();
-                $(this).toggleBulbs(frames);
+                $(this).animateFrame(200, 100, function() {
+                    frames.delete(index);
+                    frameCounter--;
+                    _this.clearFrame();
+                    _this.toggleBulbs(frames);
+                $('#frame-counter').html($().getFramesCount()+1);
+                });
             } else {
-                frames.delete(index);
-                $(this).clearFrame(); 
-                $(this).toggleBulbs(frames);
+                $(this).animateFrame(-200, 100, function() {
+                    frames.delete(index);
+                    _this.clearFrame(); 
+                    _this.toggleBulbs(frames);
+                $('#frame-counter').html($().getFramesCount()+1);
+                });
             }
         } else {
             console.log("No more frames, preventing deletion");
         }
-    }
-
-    $.fn.animateFrame = function(direction, value, duration, callback) { 
-        if ( direction = "horizontal" ) {
-            $(this).animate({
-                marginLeft: value + "px",
-                easing: "swing",
-                opacity: 0 
-            }, duration, function() {
-                callback();
-                value = -value;
-                $(this).css("margin-left", value); 
-                $(this).animate({
-                    marginLeft: "0px",
-                    easing: "swing",
-                    opacity: 1 
-                }, duration);
-            }); 
-            return;
-        }
-
-        if ( direction = "vertical" ) {
-             
-        }
-        
-        console.log('Wrong argument, "horizontal" or "vertical" expected');
     }
 
     /* Next frame method updates current frame accordingly
@@ -202,7 +204,7 @@
         } else {
             // regular $(this) doesn't work in .animation callback function
             _this = $(this);
-            $(this).animateFrame("horizontal", -200, 100, function() {
+            $(this).animateFrame(-200, 100, function() {
                 _this.clearFrame();
                 console.log(frames);
                 console.log(frames.list);
@@ -223,7 +225,7 @@
         } else {
             // regular $(this) doesn't work in .animation callback function
             _this = $(this);
-            $(this).animateFrame("horizontal", 200, 100, function() {
+            $(this).animateFrame(200, 100, function() {
                 _this.clearFrame();
                 console.log(frames);
                 console.log(frames.list);
