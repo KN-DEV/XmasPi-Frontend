@@ -170,9 +170,9 @@
             // regular $(this) doesn't work in .animation callback function
             _this = $(this);
             if ( index == frames.lengthOf()-1 ) {
+                frameCounter--;
                 $(this).animateFrame(200, 100, function() {
                     frames.delete(index);
-                    frameCounter--;
                     _this.clearFrame();
                     _this.toggleBulbs(frames);
                 $('#frame-counter').html($().getFramesCount()+1);
@@ -204,11 +204,11 @@
         } else {
             // regular $(this) doesn't work in .animation callback function
             _this = $(this);
+            frameCounter++;
             $(this).animateFrame(-200, 100, function() {
                 _this.clearFrame();
                 console.log(frames);
                 console.log(frames.list);
-                frameCounter++;
                 _this.toggleBulbs(frames);
                 console.log("Frame: " + frameCounter);
                 $('#frame-counter').html($().getFramesCount()+1);
@@ -242,11 +242,11 @@
         } else {
             // regular $(this) doesn't work in .animation callback function
             _this = $(this);
+            frameCounter--;
             $(this).animateFrame(200, 100, function() {
                 _this.clearFrame();
                 console.log(frames);
                 console.log(frames.list);
-                frameCounter--;
                 _this.toggleBulbs(frames);
                 console.log("Frame: " + frameCounter);
                 $('#frame-counter').html($().getFramesCount()+1);
