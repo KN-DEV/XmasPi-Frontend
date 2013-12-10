@@ -144,7 +144,7 @@
         frames.push(new Array(NUM_OF_LIGHT_BULBS));
         frames.fill(frames.indexOf(frames.lengthOf()-2),
                 frames.lengthOf()-1);
-        this.moveToFrame(frames.lengthOf()-1);
+        $(this).moveToFrame(frames.lengthOf()-1);
     }
 
     $.fn.deleteFrame = function(index) {
@@ -153,12 +153,12 @@
             if ( index == frames.lengthOf()-1 ) {
                 frames.delete(index);
                 frameCounter--;
-                this.clearFrame();
-                toggleBulbs(this, frames);
+                $(this).clearFrame();
+                $(this).toggleBulbs(frames);
             } else {
                 frames.delete(index);
-                this.clearFrame(); 
-                toggleBulbs(this, frames);
+                $(this).clearFrame(); 
+                $(this).toggleBulbs(frames);
             }
         } else {
             console.log("No more frames, preventing deletion");
@@ -178,12 +178,12 @@
             console.log("Frame: " + frameCounter); 
         } else {
             if ( !SAVE_BULBS_POSITION ) {
-                this.clearFrame();
+                $(this).clearFrame();
             }
             console.log(frames);
             console.log(frames.list);
             frameCounter++;
-            toggleBulbs(this, frames);
+            $(this).toggleBulbs(frames);
             console.log("Frame: " + frameCounter);
         }
     }
@@ -195,25 +195,25 @@
             console.log("This is the first frame, you can't go back.");
             console.log("Frame: " + frameCounter);
         } else {
-            this.clearFrame();
+            $(this).clearFrame();
             frameCounter--;
-            toggleBulbs(this, frames);
+            $(this).toggleBulbs(frames);
             console.log("Frame: " + frameCounter);
         } 
     }
 
     $.fn.moveToFrame = function(frame) {
-        this.clearFrame();
+        $(this).clearFrame();
         frames.fill(frames.indexOf(frame), frame);
         frameCounter = frame;
-        toggleBulbs(this, frames);
+        $(this).toggleBulbs(frames);
     }
 
     $.fn.clearFrame = function() {
-        this.find('button').each(function() {
-            $(this).value = 0;
+        $(this).find('button').each(function() {
+            $(this).attr("value", 0);
         });
-        this.find('i').each(function() {
+        $(this).find('i').each(function() {
             $(this).removeClass('fa-square').addClass('fa-square-o');
         });
     }
@@ -236,7 +236,7 @@
                 frames.list[frameCounter][i] = 0;
             }
         }
-        toggleBulbs(this, frames);
+        $(this).toggleBulbs(frames);
     }
 
     /* function used to assign json to html of jquery object
@@ -260,32 +260,72 @@
         return json;
     }
 
-    var toggleBulbs = function($this, frames) {
-        $this.find('button').each(function(i) {
+    $.fn.toggleBulbs = function(frames) {
+        $(this).find('button').each(function(i) {
             //console.log(frameCounter);
             //console.log(frames.indexOf(frameCounter)[i]); 
             
             // checks if frame at frameCounter exists, if not
             // do nothing
             if ( frames.indexOf(frameCounter) ) {
+                console.log(frameCounter);
                 if( frames.indexOf(frameCounter)[i] == undefined ) {
-                    this.value = 0;
+                    $(this).attr("value", 0);
                 } else {
-                    this.value = frames.indexOf(frameCounter)[i];
+                    $(this).attr("value", frames.indexOf(frameCounter)[i]);
                 }
-                toggleLightBulb(this);
+                console.log($(this));
+                $(this).toggleLightBulbClass();
             }
         });
     }
 
     /* Checks if bulb is in it's on or off state, and changes the class
-     * accordingly
-     */
-    var toggleLightBulb = function($this) {
-        if ( $this.value == 0 || $this.value == undefined ) {
-            $($this).find('i').removeClass('fa-square').addClass('fa-square-o');
+    * accordingly
+    */
+    $.fn.toggleLightBulbClass = function(s) {
+        if ( $(this).attr("value") == 0 || $(this).attr("value") == undefined ) {
+            $(this).find('i').removeClass('fa-square').addClass('fa-square-o');
         } else {
-            $($this).find('i').removeClass('fa-square-o').addClass('fa-square');
+            $(this).find('i').removeClass('fa-square-o').addClass('fa-square');
         } 
+    }
+
+    $.fn.toggleLightBulb = function() {
+        var id = $(this).attr("id")-1;
+
+        if ($(this).attr("value") == '1') {
+            $(this).find('i').each(function() {
+                $(this).removeClass('fa-square').addClass('fa-square-o');
+            });
+            $(this).attr("value", 0); 
+            $('#tree-wrapper').assignValue(id, $(this).attr("value"));
+        } else {
+            $(this).find('i').each(function() {
+                $(this).removeClass('fa-square-o').addClass('fa-square');
+            });
+            $(this).attr("value", 1);
+            $('#tree-wrapper').assignValue(id, $(this).attr("value"));
+        }
+    }
+
+    $.fn.turnLightBulbOn = function() {
+        var id = $(this).attr("id")-1;
+
+        $(this).find('i').each(function() {
+            $(this).removeClass('fa-square-o').addClass('fa-square');
+        });
+        $(this).attr("value", 1);
+        $('#tree-wrapper').assignValue(id, $(this).attr("value"));
+    }
+
+    $.fn.turnLightBulbOff = function() {
+        var id = $(this).attr("id")-1;
+
+        $(this).find('i').each(function() {
+            $(this).removeClass('fa-square').addClass('fa-square-o');
+        });
+        $(this).attr("value", 0); 
+        $('#tree-wrapper').assignValue(id, $(this).attr("value"));
     }
 }( jQuery ));
