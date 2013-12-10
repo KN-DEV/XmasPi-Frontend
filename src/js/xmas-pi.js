@@ -200,12 +200,14 @@
             console.log("This is the last frame, you can't move forward");
             console.log("Frame: " + frameCounter); 
         } else {
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
             $(this).animateFrame("horizontal", -200, 100, function() {
-                $(this).clearFrame();
+                _this.clearFrame();
                 console.log(frames);
                 console.log(frames.list);
                 frameCounter++;
-                $(this).toggleBulbs(frames);
+                _this.toggleBulbs(frames);
                 console.log("Frame: " + frameCounter);
                 $('#frame-counter').html($().getFramesCount()+1);
             })
@@ -219,12 +221,14 @@
             console.log("This is the first frame, you can't go back.");
             console.log("Frame: " + frameCounter);
         } else {
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
             $(this).animateFrame("horizontal", 200, 100, function() {
-                $(this).clearFrame();
+                _this.clearFrame();
                 console.log(frames);
                 console.log(frames.list);
                 frameCounter--;
-                $(this).toggleBulbs(frames);
+                _this.toggleBulbs(frames);
                 console.log("Frame: " + frameCounter);
                 $('#frame-counter').html($().getFramesCount()+1);
             })
@@ -298,13 +302,11 @@
             // checks if frame at frameCounter exists, if not
             // do nothing
             if ( frames.indexOf(frameCounter) ) {
-                console.log(frameCounter);
                 if( frames.indexOf(frameCounter)[i] == undefined ) {
                     $(this).attr("value", 0);
                 } else {
                     $(this).attr("value", frames.indexOf(frameCounter)[i]);
                 }
-                console.log($(this));
                 $(this).toggleLightBulbClass();
             }
         });
