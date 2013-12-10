@@ -55,6 +55,9 @@
                         <button id="clear-frame" class="btn btn-default">
                             <i class="fa fa-times-circle"></i>
                         </button>
+                        <button id="help" class="btn btn-default" data-toggle="modal" data-target="#helpModal">
+                            <i class="fa fa-question-circle"></i>
+                        </button>
                         <button id="frame-counter" class="btn btn-default">1</button>
                     </div>
                 </div>
@@ -390,6 +393,29 @@
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <h2>Xmas-pi<small> editor help</small></h2>
+                </h4>
+              </div>
+              <div id="helpBody" class="modal-body">
+                  <i class="fa fa-eraser fa-2x"></i> - toggles eraser mode<br><br>
+                  <i class="fa fa-minus-square-o fa-2x"></i> - inverse current frame <br><br>
+                  <i class="fa fa-times-circle fa-2x"></i> - clear current frame <br><br>
+                  <i class="fa fa-plus-square fa-2x"></i> - adds new frame <br><br>
+                  <i class="fa fa-trash-o fa-2x"></i> - deletes frame 
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </body>  
     <!-- SCRIPTS -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -438,7 +464,6 @@
             });
             $('#add-frame').click(function() {
                 $('#tree-wrapper').addFrame();    
-                $('#frame-counter').html($().getFramesCount()+1);
             });
             $('#delete-frame').click(function() {
                 $('#tree-wrapper').deleteFrame($().getFramesCount());

@@ -113,7 +113,7 @@
      * ==========================
      */ 
 
-    $.fn.ajaxPost = function(data) {
+    $.fn.ajaxPost = function() {
         var URL = "http://dev.uek.krakow.pl/~wiped/" + 
                 "XmasPi-REST/public/index.php/animation/add";
         $.ajax({
