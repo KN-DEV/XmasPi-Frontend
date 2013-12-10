@@ -411,7 +411,7 @@
                   <i class="fa fa-trash-o fa-2x"></i> - deletes frame 
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
@@ -479,7 +479,7 @@
                 $('#myModalBody')._framesToJson();        
             })
             $('#submit').click(function() {
-                var data = $('#tree-wrapper').framesToJson();
+                var data = $('#tree-wrapper').getFrames();
                 $().ajaxPost(data);
             });
             $('#toggle-eraser').click(function() {
