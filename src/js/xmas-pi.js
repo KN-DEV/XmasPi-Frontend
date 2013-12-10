@@ -216,6 +216,23 @@
         }
     }
 
+    $.fn.nextFrameWithoutAnimation = function() {
+        if ( frameCounter >= frames.lengthOf()-1 ) {
+            console.log("This is the last frame, you can't move forward");
+            console.log("Frame: " + frameCounter); 
+        } else {
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
+            _this.clearFrame();
+            console.log(frames);
+            console.log(frames.list);
+            frameCounter++;
+            _this.toggleBulbs(frames);
+            console.log("Frame: " + frameCounter);
+            $('#frame-counter').html($().getFramesCount()+1);
+        }
+    }
+
     /* Same as before with pre update check of frame bounds
      */
     $.fn.previousFrame = function() {
@@ -361,5 +378,17 @@
         });
         $(this).attr("value", 0); 
         $('#tree-wrapper').assignValue(id, $(this).attr("value"));
+    }
+
+    $.fn.playback = function(frames, sleep) {
+        frameCounter = 0;
+        _this = $(this);
+//use setinterval instead?
+        for ( i = 0; i < frames.lengthOf()-1; i++ ) {
+            setTimeout(function() {
+                console.log("dupa");
+                _this.nextFrameWithoutAnimation(); 
+            }, sleep);
+        } 
     }
 }( jQuery ));

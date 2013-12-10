@@ -370,6 +370,9 @@
                         <button id="next-frame" class="btn btn-default">
                             <i class="fa fa-arrow-right"></i>
                         </button>
+                        <button id="playback" class="btn btn-default">
+                            <i class="fa fa--right"></i>
+                        </button>
                         <button id="to-json" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                             Submit</button>
                     </div>
@@ -488,6 +491,9 @@
                 } else {
                     options.eraser = true; 
                 }  
+            })
+            $('#playback').click(function() {
+                $('#tree-wrapper').playback($().getFrames(), 5000)          ;
             })
         })
     </script>
