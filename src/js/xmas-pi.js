@@ -112,7 +112,6 @@
     /* ==== JQUERY FUNCTIONS ====
      * ==========================
      */ 
-
     $.fn.ajaxPost = function(frames) {
         var URL = "http://dev.uek.krakow.pl/~xmaspi/index.php/animation/add";
         console.log(frames.length);
