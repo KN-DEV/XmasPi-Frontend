@@ -119,6 +119,17 @@
             type: 'POST',
             url: URL,
             data: {framesArray: JSON.stringify(frames.list)},
+            beforeSend: function() {
+                $('#submitModalBody').html(
+                    "<div class='container' style='width: 100%'>" +
+                        "<div class='row'>" +
+                            "<div class='col-mid-4'>" +
+                                "<i class='fa fa-asterisk fa-spin'></i>" +
+                            "</div>" +
+                        "</div>" +
+                    "</div>"
+                );
+            },
             success: function(response) {
                 console.log(response); 
             }

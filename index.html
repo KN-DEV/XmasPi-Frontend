@@ -339,36 +339,53 @@
                         <!--<button id="playback" class="btn btn-default">-->
                             <!--<i class="fa fa--right"></i>-->
                         </button>
-                        <button id="to-json" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        <button id="to-json" class="btn btn-primary" data-toggle="modal" data-target="#submitModal">
                             Submit</button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <!-- Submit Modal -->
+        <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModal" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Json</h4>
+                <h4 class="modal-title" id="submitModal">Json</h4>
               </div>
-              <div id="myModalBody" class="modal-body">
+              <div id="submitModalBody" class="modal-body">
+                <div class="container" style="width: 100%">
+                    <div class="row">
+                        <div class="col-mid-4">
+                            <form action="#" method="post" class="form">
+                            <div class="get-in-touch">
+                                <h3 class="text-center">
+                                    Type in your name</h3>
+                                <div class="form-group" style="width:70%; margin: 20px auto" >
+                                    <input type="text" class="form-control" id="name" placeholder="Name" required/>
+                                </div>
+                                <a id="submit" class="btn btn-danger btn-sm btn-block" role="button" style="width: 70%; margin: 0 auto">Send it!</a>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button id="submit" type="button" class="btn btn-primary">Submit</button>
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <!--<button id="submit" type="button" class="btn btn-primary">Submit</button>-->
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-        <!-- Modal -->
+
+        <!-- Help Modal -->
         <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">
+                <h4 class="modal-title" id="helpModalLabel">
                     <h2>Xmas-pi<small> editor help</small></h2>
                 </h4>
               </div>
@@ -445,7 +462,7 @@
                 $().resetValues();
             });
             $('#to-json').click(function() {
-                $('#myModalBody')._framesToJson();        
+                //$('#myModalBody')._framesToJson();        
             })
             $('#submit').click(function() {
                 var data = $('#tree-wrapper').getFrames();
