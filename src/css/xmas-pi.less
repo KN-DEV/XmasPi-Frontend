@@ -1,48 +1,62 @@
-.modal .modal-body {
-    overflow-y: auto;
-}
-
-#toolbar {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-#tree-wrapper {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-// bootstrap media querries
-@sm: 768px;
-@md: 992px;
-@lg: 1200px;
-
-.btn {
-  text-decoration: none !important;
-}
-.btn:focus {
-  outline: 0;
-}
-
-  .light {
-      padding-left: 0;
-      padding-right: 0;
-      padding-top: 0;
-      padding-bottom: 0;
-
-      margin-left: 6px;
-      margin-right: 6px;
+  .modal .modal-body {
+      overflow-y: auto;
   }
 
-// media querries used to prevent 
-// awesomefonts from moving
-button > .fa-square-o {
-  margin: 1.5px 1.5px;
-}
-button > .fa-square {
-  margin: 1.5px 0.5px;
-}
+  #toolbar {
+      padding-top: 20px;
+      padding-bottom: 20px;
+  }
+
+  #tree-wrapper {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+  }
+
+  // bootstrap media querries
+  @sm: 768px;
+  @md: 992px;
+  @lg: 1200px;
+
+  .btn {
+    text-decoration: none !important;
+  }
+  .btn:focus {
+    outline: 0;
+  }
+
+  .light {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+
+  // media querries used to prevent 
+  // awesomefonts from moving
+  button > .fa-square-o {
+    margin: 1.5px 1.5px;
+  }
+  button > .fa-square {
+    margin: 1.5px 0.5px;
+  }
+
+  @media screen and (max-width: @sm) {
+    .light {
+      margin-left:  2px;
+      margin-right: 2px
+    }
+
+    button > .fa-square-o {
+      margin: 1.5px 1px;
+    }
+    button > .fa-square {
+      margin: 1.5px 0.5px;
+    }
+  }

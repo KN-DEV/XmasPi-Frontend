@@ -33,3 +33,15 @@ button > .fa-square-o {
 button > .fa-square {
   margin: 1.5px 0.5px;
 }
+@media screen and (max-width: 768px) {
+  .light {
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+  button > .fa-square-o {
+    margin: 1.5px 1px;
+  }
+  button > .fa-square {
+    margin: 1.5px 0.5px;
+  }
+}
