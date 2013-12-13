@@ -176,6 +176,14 @@
         })
     }
 
+    $.fn.addFrameWithoutAnimation = function() {
+        frames.push(new Array(NUM_OF_LIGHT_BULBS));
+        frames.fill(frames.indexOf(frames.lengthOf()-2),
+                frames.lengthOf()-1);
+        $(this).moveToFrame(frames.lengthOf()-1);
+        $('#frame-counter').html($().getFramesCount()+1);
+    }
+
     $.fn.deleteFrame = function(index) {
         // prevents deleting if there is only one frame left
         if ( frames.lengthOf() > 1 ) {
@@ -196,6 +204,27 @@
                     _this.toggleBulbs(frames);
                 $('#frame-counter').html($().getFramesCount()+1);
                 });
+            }
+        } else {
+            console.log("No more frames, preventing deletion");
+        }
+    }
+
+    $.fn.deleteFrameWithoutAnimation = function(index) {
+        if ( frames.lengthOf() > 1 ) {
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
+            if ( index == frames.lengthOf()-1 ) {
+                frameCounter--;
+                frames.delete(index);
+                _this.clearFrame();
+                _this.toggleBulbs(frames);
+                $('#frame-counter').html($().getFramesCount()+1);
+            } else {
+                frames.delete(index);
+                _this.clearFrame(); 
+                _this.toggleBulbs(frames);
+                $('#frame-counter').html($().getFramesCount()+1);
             }
         } else {
             console.log("No more frames, preventing deletion");
@@ -263,6 +292,23 @@
                 console.log("Frame: " + frameCounter);
                 $('#frame-counter').html($().getFramesCount()+1);
             })
+        } 
+    }
+
+    $.fn.previousFrameWithoutAnimation = function() {
+        if ( frameCounter-1 < 0 ) {
+            console.log("This is the first frame, you can't go back.");
+            console.log("Frame: " + frameCounter);
+        } else {
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
+            frameCounter--;
+            _this.clearFrame();
+            console.log(frames);
+            console.log(frames.list);
+            _this.toggleBulbs(frames);
+            console.log("Frame: " + frameCounter);
+            $('#frame-counter').html($().getFramesCount()+1);
         } 
     }
 
