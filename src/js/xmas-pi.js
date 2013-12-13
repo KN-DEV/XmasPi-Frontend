@@ -450,7 +450,7 @@
             console.log("dupa");
             _this.nextFrameWithoutAnimation(); 
             c++; 
-            if(c >= frames.lengthOf()) {
+            if(c > frames.lengthOf()) {
                 clearInterval(interval);
                 // post playback animation and return to last used frame
                 frameCounter = lastFrame;
