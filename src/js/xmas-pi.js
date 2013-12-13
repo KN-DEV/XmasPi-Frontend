@@ -114,7 +114,6 @@
      */ 
     $.fn.ajaxPost = function(frames) {
         var URL = "http://dev.uek.krakow.pl/~xmaspi/index.php/animation/add";
-        console.log(frames.length);
         $.ajax({
             type: 'POST',
             url: URL,
@@ -126,7 +125,7 @@
             success: function(response) {
                 $('#loading-spinner').css("opacity", "0");
                 $('#submitModalBody-success-line').html("Your place in line is: " +
-                    response);
+                    response.queue);
 
                 $('#submitModalBody-form').attr("style", "display: none");
                 $('#submitModalBody-success').attr("style", "display: inline");
@@ -177,6 +176,14 @@
         })
     }
 
+    $.fn.addFrameWithoutAnimation = function() {
+        frames.push(new Array(NUM_OF_LIGHT_BULBS));
+        frames.fill(frames.indexOf(frames.lengthOf()-2),
+                frames.lengthOf()-1);
+        $(this).moveToFrame(frames.lengthOf()-1);
+        $('#frame-counter').html($().getFramesCount()+1);
+    }
+
     $.fn.deleteFrame = function(index) {
         // prevents deleting if there is only one frame left
         if ( frames.lengthOf() > 1 ) {
@@ -197,6 +204,27 @@
                     _this.toggleBulbs(frames);
                 $('#frame-counter').html($().getFramesCount()+1);
                 });
+            }
+        } else {
+            console.log("No more frames, preventing deletion");
+        }
+    }
+
+    $.fn.deleteFrameWithoutAnimation = function(index) {
+        if ( frames.lengthOf() > 1 ) {
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
+            if ( index == frames.lengthOf()-1 ) {
+                frameCounter--;
+                frames.delete(index);
+                _this.clearFrame();
+                _this.toggleBulbs(frames);
+                $('#frame-counter').html($().getFramesCount()+1);
+            } else {
+                frames.delete(index);
+                _this.clearFrame(); 
+                _this.toggleBulbs(frames);
+                $('#frame-counter').html($().getFramesCount()+1);
             }
         } else {
             console.log("No more frames, preventing deletion");
@@ -264,6 +292,23 @@
                 console.log("Frame: " + frameCounter);
                 $('#frame-counter').html($().getFramesCount()+1);
             })
+        } 
+    }
+
+    $.fn.previousFrameWithoutAnimation = function() {
+        if ( frameCounter-1 < 0 ) {
+            console.log("This is the first frame, you can't go back.");
+            console.log("Frame: " + frameCounter);
+        } else {
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
+            frameCounter--;
+            _this.clearFrame();
+            console.log(frames);
+            console.log(frames.list);
+            _this.toggleBulbs(frames);
+            console.log("Frame: " + frameCounter);
+            $('#frame-counter').html($().getFramesCount()+1);
         } 
     }
 
@@ -395,8 +440,8 @@
         _this = $(this);
 
         // pre playback animation
-        frameCounter = 0;
-        _this.nextFrame();
+        frameCounter = -1;
+        //_this.nextFrameWithoutAnimation();
 
         var i = 0;
         
@@ -405,11 +450,15 @@
             console.log("dupa");
             _this.nextFrameWithoutAnimation(); 
             c++; 
-            if(c >= frames.lengthOf()) {
+            if(c > frames.lengthOf()) {
                 clearInterval(interval);
                 // post playback animation and return to last used frame
                 frameCounter = lastFrame;
-                _this.nextFrame();
+                if ( window.matchMedia("(max-width: 768px)").matches ) {
+                    _this.nextFrameWithoutAnimation();
+                } else {
+                    _this.nextFrame();
+                }
                 enableButtons();
             }
         }, sleep);

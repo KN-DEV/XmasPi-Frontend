@@ -33,3 +33,18 @@ button > .fa-square-o {
 button > .fa-square {
   margin: 1.5px 0.5px;
 }
+@media screen and (max-width: 768px) {
+  .light {
+    margin-left: 3px;
+    margin-right: 3px;
+  }
+  button > .fa-square-o {
+    margin: 1.5px 1.5px;
+  }
+  button > .fa-square {
+    margin: 1.5px 0.5px;
+  }
+  #to-json {
+    padding: 10px;
+  }
+}

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="src/css/xmas-pi.css"/>
@@ -341,7 +340,8 @@
                             <i class="fa fa-arrow-right"></i>
                         </button>
                         <button id="to-json" class="btn btn-primary" data-toggle="modal" data-target="#submitModal">
-                            Submit</button>
+                            <i class="fa fa-check"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -446,11 +446,17 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js" ></script>
     <script type="text/javascript" src="src/js/xmas-pi.js"></script>
+    <script type="text/javascript" src="src/js/fastclick.js"></script>
     <!-- LIGHT BULB TOGGLING -->
     <script>
         var options = {
             eraser: false  
         }
+
+        // initiate fastClick addon
+        $(function() {
+            FastClick.attach(document.body);
+        });
     </script>
     <script>
     $('button.light').click(function() {
@@ -479,19 +485,37 @@
     });
     </script>
     <script>
+        var smWidth = 768;
+
         // stupid fucking firefox 
         jQuery(function($) {
             $('#next-frame').click(function() {
-                 $('#tree-wrapper').nextFrame();
+                if ( window.matchMedia("(max-width:" + smWidth + "px)").matches ) {
+                    $('#tree-wrapper').nextFrameWithoutAnimation();
+                } else {
+                    $('#tree-wrapper').nextFrame();
+                }
             });
             $('#previous-frame').click(function() {
-                 $('#tree-wrapper').previousFrame();
+                if ( window.matchMedia("(max-width:" + smWidth + "px)").matches ) {
+                    $('#tree-wrapper').previousFrameWithoutAnimation();
+                } else {
+                    $('#tree-wrapper').previousFrame();
+                }
             });
             $('#add-frame').click(function() {
-                $('#tree-wrapper').addFrame();    
+                if ( window.matchMedia("(max-width:" + smWidth + "px)").matches ) {
+                    $('#tree-wrapper').addFrameWithoutAnimation();
+                } else {
+                    $('#tree-wrapper').addFrame();
+                }
             });
             $('#delete-frame').click(function() {
-                $('#tree-wrapper').deleteFrame($().getFramesCount());
+                if ( window.matchMedia("(max-width:" + smWidth + "px)").matches ) {
+                    $('#tree-wrapper').deleteFrameWithoutAnimation($().getFramesCount());
+                } else {
+                    $('#tree-wrapper').deleteFrame($().getFramesCount());
+                }
             });
             $('#inverse-frame').click(function() {
                 $('#tree-wrapper').inverseFrame();
@@ -518,7 +542,7 @@
                 }  
             })
             $('#playback').click(function() {
-                $('#tree-wrapper').playback($().getFrames(), 100);
+                $('#tree-wrapper').playback($().getFrames(), 200);
             })
         })
     </script>
