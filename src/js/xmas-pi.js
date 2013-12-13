@@ -109,23 +109,33 @@
     var frames = new Frames();
     var frameCounter = 0;
 
-    var SAVE_BULBS_POSITION = true;
-
-
     /* ==== JQUERY FUNCTIONS ====
      * ==========================
      */ 
-
-    $.fn.ajaxPost = function(data) {
-        var URL = "http://dev.uek.krakow.pl/~wiped/" + 
-                "XmasPi-REST/public/index.php/animation/add";
+    $.fn.ajaxPost = function(frames) {
+        var URL = "http://dev.uek.krakow.pl/~xmaspi/index.php/animation/add";
+        console.log(frames.length);
         $.ajax({
             type: 'POST',
             url: URL,
-            data: data,
+            data: {framesArray: JSON.stringify(frames.list)},
+            crossDomain: true,
+            beforeSend: function() {
+                $('#loading-spinner').css("opacity", "100");
+            },
             success: function(response) {
-                console.log(response); 
-            }
+                $('#loading-spinner').css("opacity", "0");
+                $('#submitModalBody-success-line').html("Your place in line is: " +
+                    response);
+
+                $('#submitModalBody-form').attr("style", "display: none");
+                $('#submitModalBody-success').attr("style", "display: inline");
+            },
+            error: function() {
+                $('#loading-spinner').css("opacity", "0");
+                $('#submitModalBody-form').attr("style", "display: none");
+                $('#submitModalBody-error').attr("style", "display: inline");
+            },
         });
     }
 
@@ -137,28 +147,56 @@
         return frames; 
     }
 
+    $.fn.animateFrame = function(value, duration, callback) { 
+        $(this).animate({
+            marginLeft: value + "px",
+            easing: "swing",
+            opacity: 0 
+        }, duration, function() {
+            callback();
+            value = -value;
+            $(this).css("margin-left", value); 
+            $(this).animate({
+                marginLeft: "0px",
+                easing: "swing",
+                opacity: 1 
+            }, duration);
+        }); 
+    }
+
     /* appends empty array to frames collection, and fills it with content from
      * previous frame
      */
     $.fn.addFrame = function() {
-        frames.push(new Array(NUM_OF_LIGHT_BULBS));
-        frames.fill(frames.indexOf(frames.lengthOf()-2),
-                frames.lengthOf()-1);
-        $(this).moveToFrame(frames.lengthOf()-1);
+        $(this).animateFrame(-200, 100, function() {
+            frames.push(new Array(NUM_OF_LIGHT_BULBS));
+            frames.fill(frames.indexOf(frames.lengthOf()-2),
+                    frames.lengthOf()-1);
+            $(this).moveToFrame(frames.lengthOf()-1);
+            $('#frame-counter').html($().getFramesCount()+1);
+        })
     }
 
     $.fn.deleteFrame = function(index) {
         // prevents deleting if there is only one frame left
         if ( frames.lengthOf() > 1 ) {
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
             if ( index == frames.lengthOf()-1 ) {
-                frames.delete(index);
                 frameCounter--;
-                $(this).clearFrame();
-                $(this).toggleBulbs(frames);
+                $(this).animateFrame(200, 100, function() {
+                    frames.delete(index);
+                    _this.clearFrame();
+                    _this.toggleBulbs(frames);
+                $('#frame-counter').html($().getFramesCount()+1);
+                });
             } else {
-                frames.delete(index);
-                $(this).clearFrame(); 
-                $(this).toggleBulbs(frames);
+                $(this).animateFrame(-200, 100, function() {
+                    frames.delete(index);
+                    _this.clearFrame(); 
+                    _this.toggleBulbs(frames);
+                $('#frame-counter').html($().getFramesCount()+1);
+                });
             }
         } else {
             console.log("No more frames, preventing deletion");
@@ -177,14 +215,34 @@
             console.log("This is the last frame, you can't move forward");
             console.log("Frame: " + frameCounter); 
         } else {
-            if ( !SAVE_BULBS_POSITION ) {
-                $(this).clearFrame();
-            }
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
+            frameCounter++;
+            $(this).animateFrame(-200, 100, function() {
+                _this.clearFrame();
+                console.log(frames);
+                console.log(frames.list);
+                _this.toggleBulbs(frames);
+                console.log("Frame: " + frameCounter);
+                $('#frame-counter').html($().getFramesCount()+1);
+            })
+        }
+    }
+
+    $.fn.nextFrameWithoutAnimation = function() {
+        if ( frameCounter >= frames.lengthOf()-1 ) {
+            console.log("This is the last frame, you can't move forward");
+            console.log("Frame: " + frameCounter); 
+        } else {
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
+            _this.clearFrame();
             console.log(frames);
             console.log(frames.list);
             frameCounter++;
-            $(this).toggleBulbs(frames);
+            _this.toggleBulbs(frames);
             console.log("Frame: " + frameCounter);
+            $('#frame-counter').html($().getFramesCount()+1);
         }
     }
 
@@ -195,10 +253,17 @@
             console.log("This is the first frame, you can't go back.");
             console.log("Frame: " + frameCounter);
         } else {
-            $(this).clearFrame();
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
             frameCounter--;
-            $(this).toggleBulbs(frames);
-            console.log("Frame: " + frameCounter);
+            $(this).animateFrame(200, 100, function() {
+                _this.clearFrame();
+                console.log(frames);
+                console.log(frames.list);
+                _this.toggleBulbs(frames);
+                console.log("Frame: " + frameCounter);
+                $('#frame-counter').html($().getFramesCount()+1);
+            })
         } 
     }
 
@@ -262,19 +327,14 @@
 
     $.fn.toggleBulbs = function(frames) {
         $(this).find('button').each(function(i) {
-            //console.log(frameCounter);
-            //console.log(frames.indexOf(frameCounter)[i]); 
-            
             // checks if frame at frameCounter exists, if not
             // do nothing
             if ( frames.indexOf(frameCounter) ) {
-                console.log(frameCounter);
                 if( frames.indexOf(frameCounter)[i] == undefined ) {
                     $(this).attr("value", 0);
                 } else {
                     $(this).attr("value", frames.indexOf(frameCounter)[i]);
                 }
-                console.log($(this));
                 $(this).toggleLightBulbClass();
             }
         });
@@ -327,5 +387,57 @@
         });
         $(this).attr("value", 0); 
         $('#tree-wrapper').assignValue(id, $(this).attr("value"));
+    }
+
+    $.fn.playback = function(frames, sleep) {
+        disableButtons();
+        lastFrame = frameCounter-1;
+        _this = $(this);
+
+        // pre playback animation
+        frameCounter = 0;
+        _this.nextFrame();
+
+        var i = 0;
+        
+        var c = 0;
+        var interval = setInterval(function() { 
+            console.log("dupa");
+            _this.nextFrameWithoutAnimation(); 
+            c++; 
+            if(c >= frames.lengthOf()) {
+                clearInterval(interval);
+                // post playback animation and return to last used frame
+                frameCounter = lastFrame;
+                _this.nextFrame();
+                enableButtons();
+            }
+        }, sleep);
+    }
+
+    var disableButtons = function() {
+        $('#playback').addClass("disabled");
+        $('#previous-frame').addClass("disabled");
+        $('#add-frame').addClass("disabled");
+        $('#delete-frame').addClass("disabled");
+        $('#next-frame').addClass("disabled");
+        $('#to-json').addClass("disabled");
+        $('#toggle-eraser').addClass("disabled");
+        $('#inverse-frame').addClass("disabled");
+        $('#clear-frame').addClass("disabled");
+        $('#help').addClass("disabled");
+    }
+
+    var enableButtons = function() {
+        $('#playback').removeClass("disabled");
+        $('#previous-frame').removeClass("disabled");
+        $('#add-frame').removeClass("disabled");
+        $('#delete-frame').removeClass("disabled");
+        $('#next-frame').removeClass("disabled");
+        $('#to-json').removeClass("disabled");
+        $('#toggle-eraser').removeClass("disabled");
+        $('#inverse-frame').removeClass("disabled");
+        $('#clear-frame').removeClass("disabled");
+        $('#help').removeClass("disabled");
     }
 }( jQuery ));
