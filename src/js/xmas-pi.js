@@ -114,7 +114,6 @@
      */ 
     $.fn.ajaxPost = function(frames) {
         var URL = "http://dev.uek.krakow.pl/~xmaspi/index.php/animation/add";
-        console.log(frames.length);
         $.ajax({
             type: 'POST',
             url: URL,
@@ -126,7 +125,7 @@
             success: function(response) {
                 $('#loading-spinner').css("opacity", "0");
                 $('#submitModalBody-success-line').html("Your place in line is: " +
-                    response);
+                    response.queue);
 
                 $('#submitModalBody-form').attr("style", "display: none");
                 $('#submitModalBody-success').attr("style", "display: inline");
