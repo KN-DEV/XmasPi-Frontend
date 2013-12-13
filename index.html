@@ -333,11 +333,11 @@
                         <button id="delete-frame" class="btn btn-default">
                             <i class="fa fa-trash-o"></i>
                         </button>
+                        <button id="playback" class="btn btn-default">
+                            <i class="fa fa-play-circle"></i>
+                        </button>
                         <button id="next-frame" class="btn btn-default">
                             <i class="fa fa-arrow-right"></i>
-                        </button>
-                        <!--<button id="playback" class="btn btn-default">-->
-                            <!--<i class="fa fa--right"></i>-->
                         </button>
                         <button id="to-json" class="btn btn-primary" data-toggle="modal" data-target="#submitModal">
                             Submit</button>
@@ -517,7 +517,7 @@
                 }  
             })
             $('#playback').click(function() {
-                $('#tree-wrapper').playback($().getFrames(), 5000)          ;
+                $('#tree-wrapper').playback($().getFrames(), 100);
             })
         })
     </script>

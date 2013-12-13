@@ -327,10 +327,6 @@
 
     $.fn.toggleBulbs = function(frames) {
         $(this).find('button').each(function(i) {
-            console.log("TOGGLING BIOTCH");
-            //console.log(frameCounter);
-            //console.log(frames.indexOf(frameCounter)[i]); 
-            
             // checks if frame at frameCounter exists, if not
             // do nothing
             if ( frames.indexOf(frameCounter) ) {
@@ -394,14 +390,54 @@
     }
 
     $.fn.playback = function(frames, sleep) {
-        frameCounter = 0;
+        disableButtons();
+        lastFrame = frameCounter-1;
         _this = $(this);
-//use setinterval instead?
-        for ( i = 0; i < frames.lengthOf()-1; i++ ) {
-            setTimeout(function() {
-                console.log("dupa");
-                _this.nextFrameWithoutAnimation(); 
-            }, sleep);
-        } 
+
+        // pre playback animation
+        frameCounter = 0;
+        _this.nextFrame();
+
+        var i = 0;
+        
+        var c = 0;
+        var interval = setInterval(function() { 
+            console.log("dupa");
+            _this.nextFrameWithoutAnimation(); 
+            c++; 
+            if(c >= frames.lengthOf()) {
+                clearInterval(interval);
+                // post playback animation and return to last used frame
+                frameCounter = lastFrame;
+                _this.nextFrame();
+                enableButtons();
+            }
+        }, sleep);
+    }
+
+    var disableButtons = function() {
+        $('#playback').addClass("disabled");
+        $('#previous-frame').addClass("disabled");
+        $('#add-frame').addClass("disabled");
+        $('#delete-frame').addClass("disabled");
+        $('#next-frame').addClass("disabled");
+        $('#to-json').addClass("disabled");
+        $('#toggle-eraser').addClass("disabled");
+        $('#inverse-frame').addClass("disabled");
+        $('#clear-frame').addClass("disabled");
+        $('#help').addClass("disabled");
+    }
+
+    var enableButtons = function() {
+        $('#playback').removeClass("disabled");
+        $('#previous-frame').removeClass("disabled");
+        $('#add-frame').removeClass("disabled");
+        $('#delete-frame').removeClass("disabled");
+        $('#next-frame').removeClass("disabled");
+        $('#to-json').removeClass("disabled");
+        $('#toggle-eraser').removeClass("disabled");
+        $('#inverse-frame').removeClass("disabled");
+        $('#clear-frame').removeClass("disabled");
+        $('#help').removeClass("disabled");
     }
 }( jQuery ));
