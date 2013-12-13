@@ -440,8 +440,8 @@
         _this = $(this);
 
         // pre playback animation
-        frameCounter = 0;
-        _this.nextFrame();
+        frameCounter = -1;
+        //_this.nextFrameWithoutAnimation();
 
         var i = 0;
         
