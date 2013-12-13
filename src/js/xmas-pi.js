@@ -457,9 +457,8 @@
                 if ( window.matchMedia("(max-width: 768px)").matches ) {
                     _this.nextFrameWithoutAnimation();
                 } else {
-                    _thi.nextFrame();
+                    _this.nextFrame();
                 }
-                _this.nextFrame();
                 enableButtons();
             }
         }, sleep);
