@@ -112,17 +112,30 @@
     /* ==== JQUERY FUNCTIONS ====
      * ==========================
      */ 
-
     $.fn.ajaxPost = function(frames) {
-        var URL = "http://dev.uek.krakow.pl/~wiped/" + 
-                "XmasPi-REST/public/index.php/animation/add";
+        var URL = "http://dev.uek.krakow.pl/~xmaspi/index.php/animation/add";
+        console.log(frames.length);
         $.ajax({
             type: 'POST',
             url: URL,
-            data: {framesArray: frames.list},
+            data: {framesArray: JSON.stringify(frames.list)},
+            crossDomain: true,
+            beforeSend: function() {
+                $('#loading-spinner').css("opacity", "100");
+            },
             success: function(response) {
-                console.log(response); 
-            }
+                $('#loading-spinner').css("opacity", "0");
+                $('#submitModalBody-success-line').html("Your place in line is: " +
+                    response);
+
+                $('#submitModalBody-form').attr("style", "display: none");
+                $('#submitModalBody-success').attr("style", "display: inline");
+            },
+            error: function() {
+                $('#loading-spinner').css("opacity", "0");
+                $('#submitModalBody-form').attr("style", "display: none");
+                $('#submitModalBody-error').attr("style", "display: inline");
+            },
         });
     }
 
@@ -170,9 +183,9 @@
             // regular $(this) doesn't work in .animation callback function
             _this = $(this);
             if ( index == frames.lengthOf()-1 ) {
+                frameCounter--;
                 $(this).animateFrame(200, 100, function() {
                     frames.delete(index);
-                    frameCounter--;
                     _this.clearFrame();
                     _this.toggleBulbs(frames);
                 $('#frame-counter').html($().getFramesCount()+1);
@@ -204,15 +217,32 @@
         } else {
             // regular $(this) doesn't work in .animation callback function
             _this = $(this);
+            frameCounter++;
             $(this).animateFrame(-200, 100, function() {
                 _this.clearFrame();
                 console.log(frames);
                 console.log(frames.list);
-                frameCounter++;
                 _this.toggleBulbs(frames);
                 console.log("Frame: " + frameCounter);
                 $('#frame-counter').html($().getFramesCount()+1);
             })
+        }
+    }
+
+    $.fn.nextFrameWithoutAnimation = function() {
+        if ( frameCounter >= frames.lengthOf()-1 ) {
+            console.log("This is the last frame, you can't move forward");
+            console.log("Frame: " + frameCounter); 
+        } else {
+            // regular $(this) doesn't work in .animation callback function
+            _this = $(this);
+            _this.clearFrame();
+            console.log(frames);
+            console.log(frames.list);
+            frameCounter++;
+            _this.toggleBulbs(frames);
+            console.log("Frame: " + frameCounter);
+            $('#frame-counter').html($().getFramesCount()+1);
         }
     }
 
@@ -225,11 +255,11 @@
         } else {
             // regular $(this) doesn't work in .animation callback function
             _this = $(this);
+            frameCounter--;
             $(this).animateFrame(200, 100, function() {
                 _this.clearFrame();
                 console.log(frames);
                 console.log(frames.list);
-                frameCounter--;
                 _this.toggleBulbs(frames);
                 console.log("Frame: " + frameCounter);
                 $('#frame-counter').html($().getFramesCount()+1);
@@ -361,5 +391,17 @@
         });
         $(this).attr("value", 0); 
         $('#tree-wrapper').assignValue(id, $(this).attr("value"));
+    }
+
+    $.fn.playback = function(frames, sleep) {
+        frameCounter = 0;
+        _this = $(this);
+//use setinterval instead?
+        for ( i = 0; i < frames.lengthOf()-1; i++ ) {
+            setTimeout(function() {
+                console.log("dupa");
+                _this.nextFrameWithoutAnimation(); 
+            }, sleep);
+        } 
     }
 }( jQuery ));

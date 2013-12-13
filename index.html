@@ -8,40 +8,6 @@
        
         <title>X-Mas</title>
     <body>
-        <!--<div class="row">-->
-            <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
-                <!--<button id="next-frame" class="btn btn-link">-->
-                    <!--Next frame</button>-->
-            <!--</div>-->
-            <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
-                <!--<button id="add-frame" class="btn btn-link">-->
-                    <!--Add frame</button>-->
-            <!--</div>-->
-            <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
-                <!--<button id="previous-frame" class="btn btn-link">-->
-                    <!--Previous frame</button>-->
-            <!--</div>-->
-            <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
-                <!--<button id="delete-frame" class="btn btn-link">-->
-                    <!--Delete frame</button>-->
-            <!--</div>-->
-            <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
-                <!--<button id="clear-frame" class="btn btn-link">-->
-                    <!--Clear frame</button>-->
-            <!--</div>-->
-            <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
-                <!--<button id="inverse-frame" class="btn btn-link">-->
-                    <!--Inverse frame</button>-->
-            <!--</div>-->
-            <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
-                <!--<button id="to-json" class="btn btn-link" data-toggle="modal" data-target="#myModal">-->
-                     <!--Tojson</button>-->
-            <!--</div>-->
-            <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
-                <!--<button id="toggle-eraser" class="btn btn-link">-->
-                     <!--Toggle eraser</button>-->
-            <!--</div>-->
-        <!--</div>-->
         <div id="toolbar" class="container text-center">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm12 col-xs-12">
@@ -370,48 +336,106 @@
                         <button id="next-frame" class="btn btn-default">
                             <i class="fa fa-arrow-right"></i>
                         </button>
-                        <button id="to-json" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        <!--<button id="playback" class="btn btn-default">-->
+                            <!--<i class="fa fa--right"></i>-->
+                        </button>
+                        <button id="to-json" class="btn btn-primary" data-toggle="modal" data-target="#submitModal">
                             Submit</button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <!-- Submit Modal -->
+        <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModal" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Json</h4>
+                <h4 class="modal-title" id="submitModal">Submit</h4>
               </div>
-              <div id="myModalBody" class="modal-body">
+              <div id="submitModalBody" class="modal-body">
+                <div id="submitModalBody-form" style="display: inline" class="container" style="width: 100%">
+                    <div class="row">
+                        <div class="col-mid-4">
+                            <form action="#" method="post" class="form">
+                            <div>
+                                <h3 class="text-center">
+                                    Type in your name</h3>
+                                <div class="form-group" style="width:70%; margin: 20px auto" >
+                                    <input type="text" class="form-control" id="name" placeholder="Name" required/>
+                                </div>
+                                <a id="submit" class="btn btn-danger btn-sm btn-block" role="button" style="width: 70%; margin: 0 auto">Send it!</a>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="submitModalBody-success" style="display: none" class="container" style="width: 100%">
+                    <div class="row">
+                        <div class="col-mid-4">
+                            <div>
+                                <h1 class="text-center">
+                                    Success</h1>
+                                <h5 id="submitModalBody-success-line"class="text-center">
+                                    </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="submitModalBody-error" style="display: none" class="container" style="width: 100%">
+                    <div class="row">
+                        <div class="col-mid-4">
+                            <div>
+                                <h1 class="text-center">
+                                    Uh-oh.</h1>
+                                <h5 class="text-center">
+                                    There is a problem with connection to the host.<br> Try again in a minute.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button id="submit" type="button" class="btn btn-primary">Submit</button>
+              <div id="submitModalFooter" class="modal-footer">
+                 <div class='container' style='width: 100%'>
+                        <div class='row'>
+                            <div class='col-md-6 col-md-offset-3' style='text-align: center'>
+                                <i id="loading-spinner" class='fa fa-asterisk fa-spin fa-1x' style="opacity: 0"></i>
+                            </div>
+                        </div>
+                    </div>
+               <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <!--<button id="submit" type="button" class="btn btn-primary">Submit</button>-->
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-        <!-- Modal -->
+
+        <!-- Help Modal -->
         <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">
+                <h4 class="modal-title" id="helpModalLabel">
                     <h2>Xmas-pi<small> editor help</small></h2>
                 </h4>
               </div>
               <div id="helpBody" class="modal-body">
-                  <i class="fa fa-eraser fa-2x"></i> - toggles eraser mode<br><br>
-                  <i class="fa fa-minus-square-o fa-2x"></i> - inverse current frame <br><br>
-                  <i class="fa fa-times-circle fa-2x"></i> - clear current frame <br><br>
-                  <i class="fa fa-plus-square fa-2x"></i> - adds new frame <br><br>
-                  <i class="fa fa-trash-o fa-2x"></i> - deletes frame 
+
+                  <i class="fa fa-eraser fa-2x"></i> - Toggles eraser mode<br><br>
+                  <blockquote>While in both eraser and normal mode user can 
+                        'paint' bulbs by clicking and holding mouse button.</blockquote>
+                  <i class="fa fa-minus-square-o fa-2x"></i> - Inverse current frame <br><br>
+                  <i class="fa fa-times-circle fa-2x"></i> - Clear current frame <br><br>
+                  <i class="fa fa-plus-square fa-2x"></i> - Adds new frame <br><br>
+                  <blockquote>Adds current frame, copying the bulb layout present on the
+                        current frame and goes right to it.</blockquote>
+                  <i class="fa fa-trash-o fa-2x"></i> - Deletes frame 
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                  <div class="devbot text-center">
+                      <a href="http://dev.uek.krakow.pl/" target="_blank"><img src="src/res/devbot.png"></a> 
+                  </div>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
@@ -476,7 +500,10 @@
                 $().resetValues();
             });
             $('#to-json').click(function() {
-                $('#myModalBody')._framesToJson();        
+                $('#submitModalBody-form').attr("style", "display: inline");
+                $('#submitModalBody-success').attr("style", "display: none");
+                $('#submitModalBody-error').attr("style", "display: none");
+                $('#loading-spinner').attr("style", "opacity: 0");
             })
             $('#submit').click(function() {
                 var data = $('#tree-wrapper').getFrames();
@@ -488,6 +515,9 @@
                 } else {
                     options.eraser = true; 
                 }  
+            })
+            $('#playback').click(function() {
+                $('#tree-wrapper').playback($().getFrames(), 5000)          ;
             })
         })
     </script>
