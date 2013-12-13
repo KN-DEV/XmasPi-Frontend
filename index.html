@@ -446,11 +446,17 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js" ></script>
     <script type="text/javascript" src="src/js/xmas-pi.js"></script>
+    <script type="text/javascript" src="src/js/fastclick.js"></script>
     <!-- LIGHT BULB TOGGLING -->
     <script>
         var options = {
             eraser: false  
         }
+
+        // initiate fastClick addon
+        $(function() {
+            FastClick.attach(document.body);
+        });
     </script>
     <script>
     $('button.light').click(function() {
