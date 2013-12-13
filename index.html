@@ -351,14 +351,14 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="submitModal">Json</h4>
+                <h4 class="modal-title" id="submitModal">Submit</h4>
               </div>
               <div id="submitModalBody" class="modal-body">
-                <div class="container" style="width: 100%">
+                <div id="submitModalBody-form" style="display: inline" class="container" style="width: 100%">
                     <div class="row">
                         <div class="col-mid-4">
                             <form action="#" method="post" class="form">
-                            <div class="get-in-touch">
+                            <div>
                                 <h3 class="text-center">
                                     Type in your name</h3>
                                 <div class="form-group" style="width:70%; margin: 20px auto" >
@@ -370,9 +370,40 @@
                         </div>
                     </div>
                 </div>
+                <div id="submitModalBody-success" style="display: none" class="container" style="width: 100%">
+                    <div class="row">
+                        <div class="col-mid-4">
+                            <div>
+                                <h1 class="text-center">
+                                    Success</h1>
+                                <h5 id="submitModalBody-success-line"class="text-center">
+                                    </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="submitModalBody-error" style="display: none" class="container" style="width: 100%">
+                    <div class="row">
+                        <div class="col-mid-4">
+                            <div>
+                                <h1 class="text-center">
+                                    Uh-oh.</h1>
+                                <h5 class="text-center">
+                                    There is a problem with connection to the host.<br> Try again in a minute.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
               </div>
-              <div class="modal-footer">
-                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+              <div id="submitModalFooter" class="modal-footer">
+                 <div class='container' style='width: 100%'>
+                        <div class='row'>
+                            <div class='col-md-6 col-md-offset-3' style='text-align: center'>
+                                <i id="loading-spinner" class='fa fa-asterisk fa-spin fa-1x' style="opacity: 0"></i>
+                            </div>
+                        </div>
+                    </div>
+               <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
                 <!--<button id="submit" type="button" class="btn btn-primary">Submit</button>-->
               </div>
             </div><!-- /.modal-content -->
@@ -462,7 +493,10 @@
                 $().resetValues();
             });
             $('#to-json').click(function() {
-                //$('#myModalBody')._framesToJson();        
+                $('#submitModalBody-form').attr("style", "display: inline");
+                $('#submitModalBody-success').attr("style", "display: none");
+                $('#submitModalBody-error').attr("style", "display: none");
+                $('#loading-spinner').attr("style", "opacity: 0");
             })
             $('#submit').click(function() {
                 var data = $('#tree-wrapper').getFrames();

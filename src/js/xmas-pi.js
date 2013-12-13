@@ -119,20 +119,23 @@
             type: 'POST',
             url: URL,
             data: {framesArray: JSON.stringify(frames.list)},
+            crossDomain: true,
             beforeSend: function() {
-                $('#submitModalBody').html(
-                    "<div class='container' style='width: 100%'>" +
-                        "<div class='row'>" +
-                            "<div class='col-mid-4'>" +
-                                "<i class='fa fa-asterisk fa-spin'></i>" +
-                            "</div>" +
-                        "</div>" +
-                    "</div>"
-                );
+                $('#loading-spinner').css("opacity", "100");
             },
             success: function(response) {
-                console.log(response); 
-            }
+                $('#loading-spinner').css("opacity", "0");
+                $('#submitModalBody-success-line').html("Your place in line is: " +
+                    response);
+
+                $('#submitModalBody-form').attr("style", "display: none");
+                $('#submitModalBody-success').attr("style", "display: inline");
+            },
+            error: function() {
+                $('#loading-spinner').css("opacity", "0");
+                $('#submitModalBody-form').attr("style", "display: none");
+                $('#submitModalBody-error').attr("style", "display: inline");
+            },
         });
     }
 
