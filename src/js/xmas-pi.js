@@ -120,6 +120,7 @@
             data: {framesArray: JSON.stringify(frames.list)},
             crossDomain: true,
             beforeSend: function() {
+                console.log(frames);
                 $('#loading-spinner').css("opacity", "100");
             },
             success: function(response) {
@@ -143,6 +144,7 @@
     }
 
     $.fn.getFrames = function() {
+        frames.normalizeValues();
         return frames; 
     }
 
