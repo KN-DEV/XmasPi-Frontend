@@ -120,6 +120,7 @@
             data: {framesArray: JSON.stringify(frames.list)},
             crossDomain: true,
             beforeSend: function() {
+                console.log(frames);
                 $('#loading-spinner').css("opacity", "100");
             },
             success: function(response) {
@@ -143,6 +144,7 @@
     }
 
     $.fn.getFrames = function() {
+        frames.normalizeValues();
         return frames; 
     }
 
@@ -206,6 +208,8 @@
                 });
             }
         } else {
+            this.clearFrame();
+            this.resetValues();
             console.log("No more frames, preventing deletion");
         }
     }
@@ -319,6 +323,9 @@
         $(this).toggleBulbs(frames);
     }
 
+    // clears class only
+    // it's not reseting values, because it's used in animation too,
+    // that's wy there are two functions that seemingly do the same
     $.fn.clearFrame = function() {
         $(this).find('button').each(function() {
             $(this).attr("value", 0);
